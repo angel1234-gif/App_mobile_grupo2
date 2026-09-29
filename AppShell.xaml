@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ReservasBarberia.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ReservasBarberia"
+    xmlns:views="clr-namespace:ReservasBarberia.Views"
+    Title="ReservasBarberia">
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage" />
+
+    <ShellContent
+        Title="Principal"
+        ContentTemplate="{DataTemplate views:PrincipalPage}"
+        Route="PrincipalPage" />
+
+    <ShellContent
+        Title="Reservas"
+        ContentTemplate="{DataTemplate views:ListadoReservasPage}"
+        Route="ListadoReservasPage" />
+
+    <ShellContent
+        Title="Nueva Reserva"
+        ContentTemplate="{DataTemplate views:FormularioReservaPage}"
+        Route="FormularioReservaPage" />
+
+</Shell>

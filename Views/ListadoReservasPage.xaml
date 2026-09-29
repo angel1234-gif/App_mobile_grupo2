@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReservasBarberia.Views.ListadoReservasPage"
+             Title="Mis Reservas">
+    
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="15">
+
+                <Label
+                Text="Tus próximas citas"
+                FontSize="22"
+                FontAttributes="Bold" />
+
+                <Border Stroke="#DDDDDD" StrokeShape="RoundRectangle 12" Padding="15">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Junior Pérez - Corte + barba" FontAttributes="Bold" />
+                        <Label Text="Servicio: Corte clásico" TextColor="Gray" />
+                        <Label Text="27/09/2026 - 3:00 PM" FontSize="13" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Stroke="#DDDDDD" StrokeShape="RoundRectangle 12" Padding="15">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Carlos Reyes" FontAttributes="Bold" />
+                        <Label Text="Servicio: Diseño / fade" TextColor="Gray" />
+                        <Label Text="29/09/2026 - 10:00 AM" FontSize="13" />
+                    </VerticalStackLayout>
+                </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

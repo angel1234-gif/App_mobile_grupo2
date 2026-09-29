@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReservasBarberia.Views.FormularioReservaPage"
+             Title="Nueva Reserva"
+             BackgroundColor="#F5F5F5">
+
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label
+                Text="Nueva Reserva"
+                FontSize="22"
+                FontAttributes="Bold" />
+
+            <Label Text="Nombre del cliente" FontAttributes="Bold" />
+            <Entry Placeholder="Ej: Juan Pérez" />
+
+            <Label Text="Teléfono" FontAttributes="Bold" />
+            <Entry Placeholder="809-000-0000" Keyboard="Telephone" />
+
+            <Label Text="Barbero" FontAttributes="Bold" />
+            <Picker Title="Selecciona un barbero">
+                <Picker.Items>
+                    <x:String>Junior Pérez</x:String>
+                    <x:String>Carlos Reyes</x:String>
+                    <x:String>Luis Santana</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Text="Servicio" FontAttributes="Bold" />
+            <Picker Title="Selecciona un servicio">
+                <Picker.Items>
+                    <x:String>Corte clásico</x:String>
+                    <x:String>Corte + barba</x:String>
+                    <x:String>Diseño / fade</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Text="Fecha" FontAttributes="Bold" />
+            <DatePicker />
+
+            <Label Text="Hora" FontAttributes="Bold" />
+            <TimePicker />
+
+            <Button
+                Text="Guardar reserva"
+                BackgroundColor="#2C3E50"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50"
+                Margin="0,15,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+
+</ContentPage>
