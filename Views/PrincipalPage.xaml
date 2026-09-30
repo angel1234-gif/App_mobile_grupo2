@@ -2,13 +2,40 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ReservasBarberia.Views.PrincipalPage"
-             Title="NewPage1"
+             Title="Principal"
              BackgroundColor="#F5F5F5">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
+
+    <VerticalStackLayout
+        Padding="30"
+        Spacing="20"
+        VerticalOptions="Center">
+
+        <Label
+            Text="Bienvenido"
+            FontSize="26"
+            FontAttributes="Bold"
             HorizontalOptions="Center" />
+
+        <Label
+            Text="¿Qué deseas hacer?"
+            FontSize="14"
+            TextColor="Gray"
+            HorizontalOptions="Center"
+            Margin="0,0,0,20" />
+
+        <Button
+            Text="Ver reservas"
+            BackgroundColor="#2C3E50"
+            TextColor="White"
+            CornerRadius="10"
+            HeightRequest="50" />
+
+        <Button
+            Text="Nueva reserva"
+            BackgroundColor="#2C3E50"
+            TextColor="White"
+            CornerRadius="10"
+            HeightRequest="50" />
+
     </VerticalStackLayout>
 </ContentPage>
-    
