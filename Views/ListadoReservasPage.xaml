@@ -24,7 +24,7 @@
                     <VerticalStackLayout Spacing="5">
                         <Label Text="Carlos Reyes" FontAttributes="Bold" />
                         <Label Text="Servicio: Diseño / fade" TextColor="Gray" />
-                        <Label Text="29/09/2026 - 10:00 AM" FontSize="13" />
+                        <Label Text="29/09/2026 - 10:00 AM" FonTSize="13" />
                     </VerticalStackLayout>
                 </Border>
 
