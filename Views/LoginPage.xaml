@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ReservasBarberia.Views.LoginPage"
              Title="Iniciar sesión"
+             Shell.FlyoutBehavior="Disabled"
              BackgroundColor="#F5F5F5">
 
     <VerticalStackLayout

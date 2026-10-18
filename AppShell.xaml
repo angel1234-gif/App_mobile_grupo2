@@ -10,7 +10,8 @@
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate views:LoginPage}"
-        Route="LoginPage" />
+        Route="LoginPage"
+        FlyoutItemIsVisible="False" />
 
     <ShellContent
         Title="Principal"
@@ -26,5 +27,7 @@
         Title="Nueva Reserva"
         ContentTemplate="{DataTemplate views:FormularioReservaPage}"
         Route="FormularioReservaPage" />
+
+    <MenuItem Text="Cerrar sesión" Clicked="OnCerrarSesionClicked" />
 
 </Shell>
