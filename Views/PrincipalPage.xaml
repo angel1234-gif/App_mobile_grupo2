@@ -28,14 +28,16 @@
             BackgroundColor="#2C3E50"
             TextColor="White"
             CornerRadius="10"
-            HeightRequest="50" />
+            HeightRequest="50"
+            Clicked="OnVerReservasClicked" />
 
         <Button
             Text="Nueva reserva"
             BackgroundColor="#2C3E50"
             TextColor="White"
             CornerRadius="10"
-            HeightRequest="50" />
+            HeightRequest="50"
+            Clicked="OnNuevaReservaClicked" />
 
     </VerticalStackLayout>
 </ContentPage>
