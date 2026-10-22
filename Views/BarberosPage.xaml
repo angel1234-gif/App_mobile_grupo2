@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ReservasBarberia.Models"
+             x:Class="ReservasBarberia.Views.BarberosPage"
+             Title="Barberos"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Nuevo barbero" FontSize="22" FontAttributes="Bold" />
+
+            <Label Text="Nombre *" FontAttributes="Bold" />
+            <Entry x:Name="NombreEntry" Placeholder="Ej: Junior Pérez" />
+
+            <Label Text="Especialidad *" FontAttributes="Bold" />
+            <Entry x:Name="EspecialidadEntry" Placeholder="Ej: Fade y diseño" />
+
+            <Label Text="Teléfono *" FontAttributes="Bold" />
+            <Entry x:Name="TelefonoEntry" Placeholder="809-000-0000" Keyboard="Telephone" />
+
+            <Label
+                x:Name="MensajeError"
+                TextColor="Red"
+                FontSize="14"
+                IsVisible="False" />
+
+            <Button
+                Text="Guardar barbero"
+                BackgroundColor="#2C3E50"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50"
+                Clicked="OnGuardarClicked" />
+
+            <Label
+                Text="Barberos registrados"
+                FontSize="22"
+                FontAttributes="Bold"
+                Margin="0,20,0,0" />
+
+            <VerticalStackLayout x:Name="ListaBarberos" Spacing="10">
+
+                <BindableLayout.EmptyView>
+                    <Label Text="Todavía no hay barberos registrados." TextColor="Gray" />
+                </BindableLayout.EmptyView>
+
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:Barbero">
+                        <Border
+                            Stroke="#DDDDDD"
+                            StrokeShape="RoundRectangle 12"
+                            BackgroundColor="White"
+                            Padding="15">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding Nombre}" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="{Binding Especialidad}" />
+                                <Label Text="{Binding Telefono}" TextColor="Gray" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

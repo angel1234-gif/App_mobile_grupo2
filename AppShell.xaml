@@ -27,6 +27,10 @@
         Title="Nueva Reserva"
         ContentTemplate="{DataTemplate views:FormularioReservaPage}"
         Route="FormularioReservaPage" />
+    <ShellContent
+        Title="Barberos"
+        ContentTemplate="{DataTemplate views:BarberosPage}"
+        Route="BarberosPage" />
 
     <MenuItem Text="Cerrar sesión" Clicked="OnCerrarSesionClicked" />
 

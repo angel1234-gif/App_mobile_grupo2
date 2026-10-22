@@ -74,6 +74,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\BarberosPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\FormularioReservaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
