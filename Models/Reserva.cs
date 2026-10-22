@@ -9,4 +9,6 @@ public class Reserva
     public string Servicio { get; set; } = string.Empty;
     public DateTime Fecha { get; set; }
     public TimeSpan Hora { get; set; }
+
+    public string FechaHoraTexto => $"{Fecha:dd/MM/yyyy} - {Hora:hh\\:mm}";
 }
