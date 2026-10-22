@@ -5,7 +5,6 @@
              Title="Nueva Reserva"
              BackgroundColor="#F5F5F5">
 
-
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
@@ -14,35 +13,29 @@
                 FontSize="22"
                 FontAttributes="Bold" />
 
-            <Label Text="Nombre del cliente" FontAttributes="Bold" />
-            <Entry Placeholder="Ej: Juan Pérez" />
+            <Label Text="Nombre del cliente *" FontAttributes="Bold" />
+            <Entry x:Name="NombreEntry" Placeholder="Ej: Juan Pérez" />
 
-            <Label Text="Teléfono" FontAttributes="Bold" />
-            <Entry Placeholder="809-000-0000" Keyboard="Telephone" />
+            <Label Text="Teléfono *" FontAttributes="Bold" />
+            <Entry x:Name="TelefonoEntry" Placeholder="809-000-0000" Keyboard="Telephone" />
 
-            <Label Text="Barbero" FontAttributes="Bold" />
-            <Picker Title="Selecciona un barbero">
-                <Picker.Items>
-                    <x:String>Junior Pérez</x:String>
-                    <x:String>Carlos Reyes</x:String>
-                    <x:String>Luis Santana</x:String>
-                </Picker.Items>
-            </Picker>
+            <Label Text="Barbero *" FontAttributes="Bold" />
+            <Picker x:Name="BarberoPicker" Title="Selecciona un barbero" />
 
-            <Label Text="Servicio" FontAttributes="Bold" />
-            <Picker Title="Selecciona un servicio">
-                <Picker.Items>
-                    <x:String>Corte clásico</x:String>
-                    <x:String>Corte + barba</x:String>
-                    <x:String>Diseño / fade</x:String>
-                </Picker.Items>
-            </Picker>
+            <Label Text="Servicio *" FontAttributes="Bold" />
+            <Picker x:Name="ServicioPicker" Title="Selecciona un servicio" />
 
-            <Label Text="Fecha" FontAttributes="Bold" />
-            <DatePicker />
+            <Label Text="Fecha *" FontAttributes="Bold" />
+            <DatePicker x:Name="FechaPicker" />
 
-            <Label Text="Hora" FontAttributes="Bold" />
-            <TimePicker />
+            <Label Text="Hora *" FontAttributes="Bold" />
+            <TimePicker x:Name="HoraPicker" />
+
+            <Label
+                x:Name="MensajeError"
+                TextColor="Red"
+                FontSize="14"
+                IsVisible="False" />
 
             <Button
                 Text="Guardar reserva"
@@ -50,10 +43,9 @@
                 TextColor="White"
                 CornerRadius="10"
                 HeightRequest="50"
-                Margin="0,15,0,0" />
+                Margin="0,15,0,0"
+                Clicked="OnGuardarClicked" />
 
         </VerticalStackLayout>
     </ScrollView>
-
-
 </ContentPage>
