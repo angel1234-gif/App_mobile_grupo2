@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReservasBarberia.Services;
 using ReservasBarberia.Views;
+using ReservasBarberia.ViewModels;
 
 namespace ReservasBarberia;
 
@@ -30,6 +31,7 @@ public static class MauiProgram
         builder.Services.AddTransient<FormularioReservaPage>();
         builder.Services.AddTransient<BarberosPage>();
         builder.Services.AddTransient<ServiciosPage>();
+        builder.Services.AddTransient<ReservaViewModel>();
         return builder.Build();
 	}
 }
