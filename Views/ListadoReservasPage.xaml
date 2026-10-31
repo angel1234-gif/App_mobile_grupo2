@@ -14,7 +14,7 @@
             FontSize="22"
             FontAttributes="Bold" />
 
-        <CollectionView x:Name="ReservasCollection" Grid.Row="1">
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Reservas}">
 
             <CollectionView.EmptyView>
                 <Label

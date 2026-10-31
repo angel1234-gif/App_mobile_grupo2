@@ -1,14 +1,12 @@
-using ReservasBarberia.Services;
+using ReservasBarberia.ViewModels;
 
 namespace ReservasBarberia.Views;
 
 public partial class ListadoReservasPage : ContentPage
 {
-    public ListadoReservasPage(DataService data)
+    public ListadoReservasPage(ReservaViewModel viewModel)
     {
         InitializeComponent();
-
-        
-        ReservasCollection.ItemsSource = data.Reservas;
+        BindingContext = viewModel;
     }
 }
