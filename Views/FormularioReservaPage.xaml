@@ -6,36 +6,88 @@
              BackgroundColor="#F5F5F5">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <VerticalStackLayout Padding="20" Spacing="14">
 
             <Label
                 Text="Nueva Reserva"
                 FontSize="22"
                 FontAttributes="Bold" />
 
-            <Label Text="Nombre del cliente *" FontAttributes="Bold" />
-            <Entry x:Name="NombreEntry" Placeholder="Ej: Juan Pérez" />
+            <!-- Nombre del cliente -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Nombre del cliente *" FontAttributes="Bold" />
+                <Entry Text="{Binding ClienteNombre}" Placeholder="Ej: Juan Pérez" />
+                <Label
+                    Text="{Binding ErrorNombre}"
+                    TextColor="Red"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}" />
+            </VerticalStackLayout>
 
-            <Label Text="Teléfono *" FontAttributes="Bold" />
-            <Entry x:Name="TelefonoEntry" Placeholder="809-000-0000" Keyboard="Telephone" />
+            <!-- Teléfono -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Teléfono *" FontAttributes="Bold" />
+                <Entry Text="{Binding ClienteTelefono}" Placeholder="809-000-0000" Keyboard="Telephone" />
+                <Label
+                    Text="{Binding ErrorTelefono}"
+                    TextColor="Red"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorTelefono, Converter={StaticResource TieneTexto}}" />
+            </VerticalStackLayout>
 
-            <Label Text="Barbero *" FontAttributes="Bold" />
-            <Picker x:Name="BarberoPicker" Title="Selecciona un barbero" />
+            <!-- Barbero -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Barbero *" FontAttributes="Bold" />
+                <Picker
+                    Title="Selecciona un barbero"
+                    ItemsSource="{Binding Barberos}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    SelectedItem="{Binding BarberoSeleccionado}" />
+                <Label
+                    Text="{Binding ErrorBarbero}"
+                    TextColor="Red"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorBarbero, Converter={StaticResource TieneTexto}}" />
+            </VerticalStackLayout>
 
-            <Label Text="Servicio *" FontAttributes="Bold" />
-            <Picker x:Name="ServicioPicker" Title="Selecciona un servicio" />
+            <!-- Servicio -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Servicio *" FontAttributes="Bold" />
+                <Picker
+                    Title="Selecciona un servicio"
+                    ItemsSource="{Binding Servicios}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    SelectedItem="{Binding ServicioSeleccionado}" />
+                <Label
+                    Text="{Binding ErrorServicio}"
+                    TextColor="Red"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorServicio, Converter={StaticResource TieneTexto}}" />
+            </VerticalStackLayout>
 
-            <Label Text="Fecha *" FontAttributes="Bold" />
-            <DatePicker x:Name="FechaPicker" />
+            <!-- Fecha -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Fecha *" FontAttributes="Bold" />
+                <DatePicker
+                    Date="{Binding Fecha}"
+                    MinimumDate="{Binding FechaMinima}" />
+                <Label
+                    Text="{Binding ErrorFecha}"
+                    TextColor="Red"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorFecha, Converter={StaticResource TieneTexto}}" />
+            </VerticalStackLayout>
 
-            <Label Text="Hora *" FontAttributes="Bold" />
-            <TimePicker x:Name="HoraPicker" />
-
-            <Label
-                x:Name="MensajeError"
-                TextColor="Red"
-                FontSize="14"
-                IsVisible="False" />
+            <!-- Hora -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Hora *" FontAttributes="Bold" />
+                <TimePicker Time="{Binding Hora}" />
+                <Label
+                    Text="{Binding ErrorHora}"
+                    TextColor="Red"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorHora, Converter={StaticResource TieneTexto}}" />
+            </VerticalStackLayout>
 
             <Button
                 Text="Guardar reserva"
@@ -43,8 +95,8 @@
                 TextColor="White"
                 CornerRadius="10"
                 HeightRequest="50"
-                Margin="0,15,0,0"
-                Clicked="OnGuardarClicked" />
+                Margin="0,10,0,0"
+                Command="{Binding GuardarCommand}" />
 
         </VerticalStackLayout>
     </ScrollView>
