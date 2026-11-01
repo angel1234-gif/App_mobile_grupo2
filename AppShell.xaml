@@ -35,6 +35,10 @@
         Title="Servicios"
         ContentTemplate="{DataTemplate views:ServiciosPage}"
         Route="ServiciosPage" />
+    <ShellContent
+        Title="Clientes"
+        ContentTemplate="{DataTemplate views:ClientesPage}"
+        Route="ClientesPage" />
 
     <MenuItem Text="Cerrar sesión" Clicked="OnCerrarSesionClicked" />
 

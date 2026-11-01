@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ReservasBarberia.Models"
+             x:Class="ReservasBarberia.Views.ClientesPage"
+             Title="Clientes"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="14">
+
+            <Label Text="Nuevo cliente" FontSize="22" FontAttributes="Bold" />
+
+            <!-- Nombre -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Nombre *" FontAttributes="Bold" />
+                <Entry Text="{Binding Nombre}" Placeholder="Ej: Juan Pérez" />
+                <Label
+                    Text="{Binding ErrorNombre}"
+                    TextColor="Red"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}" />
+            </VerticalStackLayout>
+
+            <!-- Teléfono -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Teléfono *" FontAttributes="Bold" />
+                <Entry Text="{Binding Telefono}" Placeholder="809-000-0000" Keyboard="Telephone" />
+                <Label
+                    Text="{Binding ErrorTelefono}"
+                    TextColor="Red"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorTelefono, Converter={StaticResource TieneTexto}}" />
+            </VerticalStackLayout>
+
+            <!-- Correo -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Correo *" FontAttributes="Bold" />
+                <Entry Text="{Binding Correo}" Placeholder="Ej: juan@correo.com" Keyboard="Email" />
+                <Label
+                    Text="{Binding ErrorCorreo}"
+                    TextColor="Red"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorCorreo, Converter={StaticResource TieneTexto}}" />
+            </VerticalStackLayout>
+
+            <Button
+                Text="Guardar cliente"
+                BackgroundColor="#2C3E50"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50"
+                Margin="0,10,0,0"
+                Command="{Binding GuardarCommand}" />
+
+            <Label
+                Text="Clientes registrados"
+                FontSize="22"
+                FontAttributes="Bold"
+                Margin="0,20,0,0" />
+
+            <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Clientes}">
+
+                <BindableLayout.EmptyView>
+                    <Label Text="Todavía no hay clientes registrados." TextColor="Gray" />
+                </BindableLayout.EmptyView>
+
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:Cliente">
+                        <Border
+                            Stroke="#DDDDDD"
+                            StrokeShape="RoundRectangle 12"
+                            BackgroundColor="White"
+                            Padding="15">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding Nombre}" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="{Binding Telefono}" />
+                                <Label Text="{Binding Correo}" TextColor="Gray" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
