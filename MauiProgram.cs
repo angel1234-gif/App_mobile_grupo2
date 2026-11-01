@@ -32,6 +32,10 @@ public static class MauiProgram
         builder.Services.AddTransient<BarberosPage>();
         builder.Services.AddTransient<ServiciosPage>();
         builder.Services.AddTransient<ReservaViewModel>();
+        builder.Services.AddTransient<BarberoViewModel>();
         return builder.Build();
 	}
 }
+
+
+
