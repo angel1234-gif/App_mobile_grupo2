@@ -1,19 +1,12 @@
+using ReservasBarberia.ViewModels;
+
 namespace ReservasBarberia.Views;
 
 public partial class PrincipalPage : ContentPage
 {
-    public PrincipalPage()
+    public PrincipalPage(PrincipalViewModel viewModel)
     {
         InitializeComponent();
-    }
-
-    private async void OnVerReservasClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("//ListadoReservasPage");
-    }
-
-    private async void OnNuevaReservaClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("//FormularioReservaPage");
+        BindingContext = viewModel;
     }
 }

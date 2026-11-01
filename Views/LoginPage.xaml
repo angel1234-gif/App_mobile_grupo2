@@ -8,7 +8,7 @@
 
     <VerticalStackLayout
         Padding="30"
-        Spacing="20"
+        Spacing="16"
         VerticalOptions="Center">
 
         <Label
@@ -21,24 +21,28 @@
             Text="Inicia sesión para continuar"
             FontSize="14"
             TextColor="Gray"
-            HorizontalOptions="Center" />
-
-        <Entry
-            x:Name="UsuarioEntry"
-            Placeholder="Usuario"
-            Margin="0,20,0,0" />
-
-        <Entry
-            x:Name="ClaveEntry"
-            Placeholder="Contraseña"
-            IsPassword="True" />
-
-        <Label
-            x:Name="MensajeError"
-            TextColor="Red"
-            FontSize="14"
             HorizontalOptions="Center"
-            IsVisible="False" />
+            Margin="0,0,0,10" />
+
+        <!-- Usuario -->
+        <VerticalStackLayout Spacing="4">
+            <Entry Text="{Binding Usuario}" Placeholder="Usuario" />
+            <Label
+                Text="{Binding ErrorUsuario}"
+                TextColor="Red"
+                FontSize="13"
+                IsVisible="{Binding ErrorUsuario, Converter={StaticResource TieneTexto}}" />
+        </VerticalStackLayout>
+
+        <!-- Contraseña -->
+        <VerticalStackLayout Spacing="4">
+            <Entry Text="{Binding Clave}" Placeholder="Contraseña" IsPassword="True" />
+            <Label
+                Text="{Binding ErrorClave}"
+                TextColor="Red"
+                FontSize="13"
+                IsVisible="{Binding ErrorClave, Converter={StaticResource TieneTexto}}" />
+        </VerticalStackLayout>
 
         <Button
             Text="Iniciar sesión"
@@ -47,7 +51,7 @@
             CornerRadius="10"
             HeightRequest="50"
             Margin="0,10,0,0"
-            Clicked="OnLoginClicked" />
+            Command="{Binding IngresarCommand}" />
 
     </VerticalStackLayout>
 </ContentPage>

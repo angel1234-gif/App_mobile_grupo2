@@ -29,7 +29,7 @@
             TextColor="White"
             CornerRadius="10"
             HeightRequest="50"
-            Clicked="OnVerReservasClicked" />
+            Command="{Binding IrAReservasCommand}" />
 
         <Button
             Text="Nueva reserva"
@@ -37,7 +37,7 @@
             TextColor="White"
             CornerRadius="10"
             HeightRequest="50"
-            Clicked="OnNuevaReservaClicked" />
+            Command="{Binding IrANuevaReservaCommand}" />
 
     </VerticalStackLayout>
 </ContentPage>

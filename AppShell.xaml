@@ -40,6 +40,6 @@
         ContentTemplate="{DataTemplate views:ClientesPage}"
         Route="ClientesPage" />
 
-    <MenuItem Text="Cerrar sesión" Clicked="OnCerrarSesionClicked" />
+    <MenuItem Text="Cerrar sesión" Command="{Binding CerrarSesionCommand}" />
 
 </Shell>
