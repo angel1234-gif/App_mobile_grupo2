@@ -11,7 +11,7 @@
 
             <Label Text="Nuevo cliente" FontSize="22" FontAttributes="Bold" />
 
-            <!-- Nombre -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Nombre *" FontAttributes="Bold" />
                 <Entry Text="{Binding Nombre}" Placeholder="Ej: Juan Pérez" />
@@ -22,7 +22,7 @@
                     IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Teléfono -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Teléfono *" FontAttributes="Bold" />
                 <Entry Text="{Binding Telefono}" Placeholder="809-000-0000" Keyboard="Telephone" />
@@ -33,7 +33,7 @@
                     IsVisible="{Binding ErrorTelefono, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Correo -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Correo *" FontAttributes="Bold" />
                 <Entry Text="{Binding Correo}" Placeholder="Ej: juan@correo.com" Keyboard="Email" />

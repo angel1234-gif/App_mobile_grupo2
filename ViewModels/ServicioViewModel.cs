@@ -9,7 +9,7 @@ namespace ReservasBarberia.ViewModels;
 
 public partial class ServicioViewModel : ObservableObject
 {
-    // Límites que usan las validaciones
+    
     private const decimal PrecioMaximo = 10000;
     private const int DuracionMinima = 10;
     private const int DuracionMaxima = 180;
@@ -21,25 +21,25 @@ public partial class ServicioViewModel : ObservableObject
         _data = data;
     }
 
-    // Lista que muestra el listado (viene del servicio en memoria)
+    
     public ObservableCollection<Servicio> Servicios => _data.Servicios;
 
-    // ---------- Campos del formulario (se escriben como texto) ----------
+    
     [ObservableProperty] private string nombre = string.Empty;
     [ObservableProperty] private string precio = string.Empty;
     [ObservableProperty] private string duracion = string.Empty;
 
-    // ---------- Mensajes de error (uno por campo) ----------
+    
     [ObservableProperty] private string errorNombre = string.Empty;
     [ObservableProperty] private string errorPrecio = string.Empty;
     [ObservableProperty] private string errorDuracion = string.Empty;
 
-    // Al corregir un campo, su mensaje de error desaparece solo
+    
     partial void OnNombreChanged(string value) => ErrorNombre = string.Empty;
     partial void OnPrecioChanged(string value) => ErrorPrecio = string.Empty;
     partial void OnDuracionChanged(string value) => ErrorDuracion = string.Empty;
 
-    // ---------- Botón "Guardar servicio" ----------
+    
     [RelayCommand]
     private async Task GuardarAsync()
     {
@@ -63,14 +63,13 @@ public partial class ServicioViewModel : ObservableObject
         LimpiarFormulario();
     }
 
-    // ---------- Validaciones ----------
-    // Devuelve el precio y la duración ya convertidos a número cuando son válidos
+    
     private bool Validar(out decimal precioValor, out int duracionValor)
     {
         precioValor = 0;
         duracionValor = 0;
 
-        // Nombre: obligatorio, mínimo 3 caracteres y sin repetirse
+        
         string nombreLimpio = Nombre.Trim();
         if (nombreLimpio.Length == 0)
             ErrorNombre = "Escribe el nombre del servicio.";
@@ -81,7 +80,7 @@ public partial class ServicioViewModel : ObservableObject
         else
             ErrorNombre = string.Empty;
 
-        // Precio: debe ser un número, mayor que 0 y no excesivo
+        
         string precioTexto = Precio.Trim();
         if (precioTexto.Length == 0)
             ErrorPrecio = "Escribe el precio del servicio.";
@@ -94,7 +93,7 @@ public partial class ServicioViewModel : ObservableObject
         else
             ErrorPrecio = string.Empty;
 
-        // Duración: número entero de minutos dentro de un rango razonable
+        
         string duracionTexto = Duracion.Trim();
         if (duracionTexto.Length == 0)
             ErrorDuracion = "Escribe la duración en minutos.";
@@ -105,7 +104,7 @@ public partial class ServicioViewModel : ObservableObject
         else
             ErrorDuracion = string.Empty;
 
-        // Válido solo si ningún campo quedó con error
+        
         return string.IsNullOrEmpty(ErrorNombre)
             && string.IsNullOrEmpty(ErrorPrecio)
             && string.IsNullOrEmpty(ErrorDuracion);

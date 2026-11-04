@@ -16,25 +16,25 @@ public partial class BarberoViewModel : ObservableObject
         _data = data;
     }
 
-    // Lista que muestra el listado (viene del servicio en memoria)
+    
     public ObservableCollection<Barbero> Barberos => _data.Barberos;
 
-    // ---------- Campos del formulario ----------
+    
     [ObservableProperty] private string nombre = string.Empty;
     [ObservableProperty] private string especialidad = string.Empty;
     [ObservableProperty] private string telefono = string.Empty;
 
-    // ---------- Mensajes de error (uno por campo) ----------
+    
     [ObservableProperty] private string errorNombre = string.Empty;
     [ObservableProperty] private string errorEspecialidad = string.Empty;
     [ObservableProperty] private string errorTelefono = string.Empty;
 
-    // Al corregir un campo, su mensaje de error desaparece solo
+    
     partial void OnNombreChanged(string value) => ErrorNombre = string.Empty;
     partial void OnEspecialidadChanged(string value) => ErrorEspecialidad = string.Empty;
     partial void OnTelefonoChanged(string value) => ErrorTelefono = string.Empty;
 
-    // ---------- Botón "Guardar barbero" ----------
+    
     [RelayCommand]
     private async Task GuardarAsync()
     {
@@ -58,10 +58,10 @@ public partial class BarberoViewModel : ObservableObject
         LimpiarFormulario();
     }
 
-    // ---------- Validaciones ----------
+    
     private bool Validar()
     {
-        // Nombre: obligatorio, sin números y sin repetirse
+        
         ErrorNombre = Validaciones.Nombre(Nombre, "del barbero");
         if (string.IsNullOrEmpty(ErrorNombre) &&
             _data.Barberos.Any(b => b.Nombre.Equals(Nombre.Trim(), StringComparison.OrdinalIgnoreCase)))
@@ -69,7 +69,7 @@ public partial class BarberoViewModel : ObservableObject
             ErrorNombre = "Ya existe un barbero con ese nombre.";
         }
 
-        // Especialidad: obligatoria y con sentido
+        
         string especialidadLimpia = Especialidad.Trim();
         if (especialidadLimpia.Length == 0)
             ErrorEspecialidad = "Escribe la especialidad del barbero.";
@@ -78,10 +78,10 @@ public partial class BarberoViewModel : ObservableObject
         else
             ErrorEspecialidad = string.Empty;
 
-        // Teléfono dominicano
+        
         ErrorTelefono = Validaciones.Telefono(Telefono, "del barbero");
 
-        // Válido solo si ningún campo quedó con error
+        
         return string.IsNullOrEmpty(ErrorNombre)
             && string.IsNullOrEmpty(ErrorEspecialidad)
             && string.IsNullOrEmpty(ErrorTelefono);

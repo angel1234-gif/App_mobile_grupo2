@@ -17,25 +17,25 @@ public partial class ClienteViewModel : ObservableObject
         _data = data;
     }
 
-    // Lista que muestra el listado (viene del servicio en memoria)
+    
     public ObservableCollection<Cliente> Clientes => _data.Clientes;
 
-    //  Campos del formulario 
+    
     [ObservableProperty] private string nombre = string.Empty;
     [ObservableProperty] private string telefono = string.Empty;
     [ObservableProperty] private string correo = string.Empty;
 
-    // Mensajes de error (uno por campo) 
+    
     [ObservableProperty] private string errorNombre = string.Empty;
     [ObservableProperty] private string errorTelefono = string.Empty;
     [ObservableProperty] private string errorCorreo = string.Empty;
 
-    // Al corregir un campo, su mensaje de error desaparece solo
+    
     partial void OnNombreChanged(string value) => ErrorNombre = string.Empty;
     partial void OnTelefonoChanged(string value) => ErrorTelefono = string.Empty;
     partial void OnCorreoChanged(string value) => ErrorCorreo = string.Empty;
 
-    //  Botón "Guardar cliente" 
+    
     [RelayCommand]
     private async Task GuardarAsync()
     {
@@ -59,13 +59,13 @@ public partial class ClienteViewModel : ObservableObject
         LimpiarFormulario();
     }
 
-    // Validaciones 
+    
     private bool Validar()
     {
-        // Nombre: obligatorio mínimo 3 letras y sin números
+        
         ErrorNombre = Validaciones.Nombre(Nombre, "del cliente");
 
-        // Teléfono dominicano, y que no esté ya registrado por otro cliente
+        
         ErrorTelefono = Validaciones.Telefono(Telefono, "del cliente");
         if (string.IsNullOrEmpty(ErrorTelefono))
         {
@@ -74,7 +74,7 @@ public partial class ClienteViewModel : ObservableObject
                 ErrorTelefono = "Ya hay un cliente registrado con ese teléfono.";
         }
 
-        // Correo: obligatorio, con formato válido y sin repetirse
+        
         ErrorCorreo = ValidarCorreo(Correo);
         if (string.IsNullOrEmpty(ErrorCorreo) &&
             _data.Clientes.Any(c => c.Correo.Equals(Correo.Trim(), StringComparison.OrdinalIgnoreCase)))
@@ -82,7 +82,7 @@ public partial class ClienteViewModel : ObservableObject
             ErrorCorreo = "Ya hay un cliente registrado con ese correo.";
         }
 
-        // Válido solo si ningún campo quedó con error
+        
         return string.IsNullOrEmpty(ErrorNombre)
             && string.IsNullOrEmpty(ErrorTelefono)
             && string.IsNullOrEmpty(ErrorCorreo);
@@ -98,7 +98,7 @@ public partial class ClienteViewModel : ObservableObject
         if (correo.Contains(' '))
             return "El correo no puede tener espacios.";
 
-        // Debe tener forma de correo: juan@gmail.ext
+        
         bool formatoValido = MailAddress.TryCreate(correo, out var direccion)
                              && direccion.Address == correo
                              && direccion.Host.Contains('.');

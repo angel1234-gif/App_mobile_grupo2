@@ -24,7 +24,7 @@
             HorizontalOptions="Center"
             Margin="0,0,0,10" />
 
-        <!-- Usuario -->
+        
         <VerticalStackLayout Spacing="4">
             <Entry Text="{Binding Usuario}" Placeholder="Usuario" />
             <Label
@@ -34,7 +34,7 @@
                 IsVisible="{Binding ErrorUsuario, Converter={StaticResource TieneTexto}}" />
         </VerticalStackLayout>
 
-        <!-- Contraseña -->
+        
         <VerticalStackLayout Spacing="4">
             <Entry Text="{Binding Clave}" Placeholder="Contraseña" IsPassword="True" />
             <Label

@@ -11,7 +11,7 @@
 
             <Label Text="Nuevo barbero" FontSize="22" FontAttributes="Bold" />
 
-            <!-- Nombre -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Nombre *" FontAttributes="Bold" />
                 <Entry Text="{Binding Nombre}" Placeholder="Ej: Junior Pérez" />
@@ -22,7 +22,7 @@
                     IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Especialidad -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Especialidad *" FontAttributes="Bold" />
                 <Entry Text="{Binding Especialidad}" Placeholder="Ej: Fade y diseño" />
@@ -33,7 +33,7 @@
                     IsVisible="{Binding ErrorEspecialidad, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Teléfono -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Teléfono *" FontAttributes="Bold" />
                 <Entry Text="{Binding Telefono}" Placeholder="809-000-0000" Keyboard="Telephone" />

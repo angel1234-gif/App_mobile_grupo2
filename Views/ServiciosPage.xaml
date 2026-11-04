@@ -11,7 +11,7 @@
 
             <Label Text="Nuevo servicio" FontSize="22" FontAttributes="Bold" />
 
-            <!-- Nombre -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Nombre del servicio *" FontAttributes="Bold" />
                 <Entry Text="{Binding Nombre}" Placeholder="Ej: Corte clásico" />
@@ -22,7 +22,7 @@
                     IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Precio -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Precio (RD$) *" FontAttributes="Bold" />
                 <Entry Text="{Binding Precio}" Placeholder="Ej: 300" Keyboard="Numeric" />
@@ -33,7 +33,7 @@
                     IsVisible="{Binding ErrorPrecio, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Duración -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Duración en minutos *" FontAttributes="Bold" />
                 <Entry Text="{Binding Duracion}" Placeholder="Ej: 30" Keyboard="Numeric" />

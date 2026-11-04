@@ -13,7 +13,7 @@
                 FontSize="22"
                 FontAttributes="Bold" />
 
-            <!-- Nombre del cliente -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Nombre del cliente *" FontAttributes="Bold" />
                 <Entry Text="{Binding ClienteNombre}" Placeholder="Ej: Juan Pérez" />
@@ -24,7 +24,7 @@
                     IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Teléfono -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Teléfono *" FontAttributes="Bold" />
                 <Entry Text="{Binding ClienteTelefono}" Placeholder="809-000-0000" Keyboard="Telephone" />
@@ -35,7 +35,7 @@
                     IsVisible="{Binding ErrorTelefono, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Barbero -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Barbero *" FontAttributes="Bold" />
                 <Picker
@@ -50,7 +50,7 @@
                     IsVisible="{Binding ErrorBarbero, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Servicio -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Servicio *" FontAttributes="Bold" />
                 <Picker
@@ -65,7 +65,7 @@
                     IsVisible="{Binding ErrorServicio, Converter={StaticResource TieneTexto}}" />
             </VerticalStackLayout>
 
-            <!-- Fecha -->
+            
             <VerticalStackLayout Spacing="4">
                 <Label Text="Fecha *" FontAttributes="Bold" />
                 <DatePicker

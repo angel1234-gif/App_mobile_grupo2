@@ -10,7 +10,7 @@ public partial class ReservaViewModel : ObservableObject
 {
     private readonly DataService _data;
 
-    // Horario de atención de la barbería
+    
     private static readonly TimeSpan Apertura = new(9, 0, 0);
     private static readonly TimeSpan Cierre = new(19, 0, 0);
 
@@ -24,10 +24,10 @@ public partial class ReservaViewModel : ObservableObject
     public ObservableCollection<Servicio> Servicios => _data.Servicios;
     public ObservableCollection<Reserva> Reservas => _data.Reservas;
 
-    // La fecha más temprana que se puede elegir en el calendario
+    
     public DateTime FechaMinima => DateTime.Today;
 
-    //Campos del formulario 
+    
     [ObservableProperty] private string clienteNombre = string.Empty;
     [ObservableProperty] private string clienteTelefono = string.Empty;
     [ObservableProperty] private Barbero? barberoSeleccionado;
@@ -35,7 +35,7 @@ public partial class ReservaViewModel : ObservableObject
     [ObservableProperty] private DateTime fecha = DateTime.Today;
     [ObservableProperty] private TimeSpan hora = new(9, 0, 0);
 
-    //  Mensajes de error (uno por campo) 
+    
     [ObservableProperty] private string errorNombre = string.Empty;
     [ObservableProperty] private string errorTelefono = string.Empty;
     [ObservableProperty] private string errorBarbero = string.Empty;
@@ -43,19 +43,19 @@ public partial class ReservaViewModel : ObservableObject
     [ObservableProperty] private string errorFecha = string.Empty;
     [ObservableProperty] private string errorHora = string.Empty;
 
-    // Cuando el usuario corrige un campo, su mensaje de error desaparece solo
+    
     partial void OnClienteNombreChanged(string value) => ErrorNombre = string.Empty;
     partial void OnClienteTelefonoChanged(string value) => ErrorTelefono = string.Empty;
     partial void OnBarberoSeleccionadoChanged(Barbero? value)
     {
         ErrorBarbero = string.Empty;
-        ErrorHora = string.Empty; // la disponibilidad de la hora depende del barbero
+        ErrorHora = string.Empty; 
     }
     partial void OnServicioSeleccionadoChanged(Servicio? value) => ErrorServicio = string.Empty;
     partial void OnFechaChanged(DateTime value)
     {
         ErrorFecha = string.Empty;
-        ErrorHora = string.Empty; // la validez de la hora depende de la fecha
+        ErrorHora = string.Empty; 
     }
     partial void OnHoraChanged(TimeSpan value) => ErrorHora = string.Empty;
 
@@ -88,13 +88,13 @@ public partial class ReservaViewModel : ObservableObject
         LimpiarFormulario();
     }
 
-    // ---------- Validaciones ----------
+    
     private bool Validar()
     {
 
         ErrorNombre = ErrorTelefono = ErrorBarbero = ErrorServicio = ErrorFecha = ErrorHora = string.Empty;
 
-        // Nombre del cliente
+       
         string nombre = ClienteNombre.Trim();
         if (nombre.Length == 0)
             ErrorNombre = "Escribe el nombre del cliente.";
@@ -103,7 +103,7 @@ public partial class ReservaViewModel : ObservableObject
         else if (nombre.Any(char.IsDigit))
             ErrorNombre = "El nombre no puede contener números.";
 
-        // Teléfono (formato dominicano: 10 dígitos que empiezan con 809, 829 o 849)
+        
         string digitos = SoloDigitos(ClienteTelefono);
         if (string.IsNullOrWhiteSpace(ClienteTelefono))
             ErrorTelefono = "Escribe el teléfono del cliente.";
@@ -114,7 +114,7 @@ public partial class ReservaViewModel : ObservableObject
         else if (!(digitos.StartsWith("809") || digitos.StartsWith("829") || digitos.StartsWith("849")))
             ErrorTelefono = "El teléfono debe empezar con 809, 829 o 849.";
 
-        // Barbero y servicio
+        
         var barbero = BarberoSeleccionado;
         if (barbero is null)
             ErrorBarbero = "Selecciona el barbero que atenderá la cita.";
@@ -122,11 +122,11 @@ public partial class ReservaViewModel : ObservableObject
         if (ServicioSeleccionado is null)
             ErrorServicio = "Selecciona el servicio que deseas.";
 
-        // Fecha
+        
         if (Fecha.Date < DateTime.Today)
             ErrorFecha = "La fecha no puede ser anterior a hoy.";
 
-        // Hora
+        
         if (Hora < Apertura || Hora > Cierre)
             ErrorHora = "La barbería atiende de 9:00 AM a 7:00 PM.";
         else if (Fecha.Date == DateTime.Today && Hora <= DateTime.Now.TimeOfDay)
@@ -137,7 +137,7 @@ public partial class ReservaViewModel : ObservableObject
                      r.Hora == Hora))
             ErrorHora = $"{barbero.Nombre} ya tiene una cita a esa hora. Elige otra.";
 
-        // El formulario es válido solo si no quedó ningún mensaje de error
+        
         return string.IsNullOrEmpty(ErrorNombre)
             && string.IsNullOrEmpty(ErrorTelefono)
             && string.IsNullOrEmpty(ErrorBarbero)
