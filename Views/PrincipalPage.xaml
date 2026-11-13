@@ -3,41 +3,116 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ReservasBarberia.Views.PrincipalPage"
              Title="Principal"
-             BackgroundColor="#F5F5F5">
+             BackgroundColor="#F7F2EB">
 
-    <VerticalStackLayout
-        Padding="30"
-        Spacing="20"
-        VerticalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="25,40,25,30"
+            Spacing="0"
+            VerticalOptions="Center">
 
-        <Label
-            Text="Bienvenido"
-            FontSize="26"
-            FontAttributes="Bold"
-            HorizontalOptions="Center" />
+            
+            <Border
+                WidthRequest="100"
+                HeightRequest="100"
+                Stroke="#C9A447"
+                StrokeThickness="2"
+                BackgroundColor="#1C1B19"
+                StrokeShape="Ellipse"
+                HorizontalOptions="Center">
 
-        <Label
-            Text="¿Qué deseas hacer?"
-            FontSize="14"
-            TextColor="Gray"
-            HorizontalOptions="Center"
-            Margin="0,0,0,20" />
+                <Label
+                    Text="B"
+                    FontFamily="Georgia"
+                    FontSize="48"
+                    FontAttributes="Bold"
+                    TextColor="#C9A447"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"/>
+            </Border>
 
-        <Button
-            Text="Ver reservas"
-            BackgroundColor="#2C3E50"
-            TextColor="White"
-            CornerRadius="10"
-            HeightRequest="50"
-            Command="{Binding IrAReservasCommand}" />
+            
+            <Label
+                Text="RESERVAS BARBERÍA"
+                FontFamily="Georgia"
+                FontSize="25"
+                FontAttributes="Bold"
+                TextColor="#1C1B19"
+                HorizontalTextAlignment="Center"
+                Margin="0,25,0,0"/>
 
-        <Button
-            Text="Nueva reserva"
-            BackgroundColor="#2C3E50"
-            TextColor="White"
-            CornerRadius="10"
-            HeightRequest="50"
-            Command="{Binding IrANuevaReservaCommand}" />
+            
+            <Label
+                Text="Bienvenido"
+                FontSize="23"
+                FontAttributes="Bold"
+                TextColor="#1C1B19"
+                HorizontalTextAlignment="Center"
+                Margin="0,30,0,0"/>
 
-    </VerticalStackLayout>
+            <Label
+                Text="¿Qué deseas hacer hoy?"
+                FontSize="16"
+                TextColor="#888078"
+                HorizontalTextAlignment="Center"
+                Margin="0,8,0,30"/>
+
+            
+            <Border
+                BackgroundColor="White"
+                Stroke="#E6E0D6"
+                StrokeThickness="1.5"
+                StrokeShape="RoundRectangle 28"
+                Padding="22">
+
+                <VerticalStackLayout Spacing="18">
+
+                    
+                    <Label
+                        Text="MENÚ PRINCIPAL"
+                        FontSize="13"
+                        FontAttributes="Bold"
+                        TextColor="#A18A57"
+                        HorizontalTextAlignment="Center"
+                        Margin="0,0,0,5"/>
+
+                    
+                    <Button
+                        Text="Ver reservas"
+                        BackgroundColor="#1C1B19"
+                        TextColor="#F7F2EB"
+                        FontSize="17"
+                        FontAttributes="Bold"
+                        CornerRadius="18"
+                        HeightRequest="62"
+                        Command="{Binding IrAReservasCommand}"/>
+
+                    
+                    <Button
+                        Text="Nueva reserva"
+                        BackgroundColor="#C9A447"
+                        TextColor="#1C1B19"
+                        FontSize="17"
+                        FontAttributes="Bold"
+                        CornerRadius="18"
+                        HeightRequest="62"
+                        Command="{Binding IrANuevaReservaCommand}"/>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+            
+            <Label
+                Text="Tu estilo, nuestra pasión."
+                FontFamily="Georgia"
+                FontSize="15"
+                FontAttributes="Italic"
+                TextColor="#888078"
+                HorizontalTextAlignment="Center"
+                Margin="0,30,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

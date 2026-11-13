@@ -4,45 +4,122 @@
              xmlns:models="clr-namespace:ReservasBarberia.Models"
              x:Class="ReservasBarberia.Views.ListadoReservasPage"
              Title="Mis Reservas"
-             BackgroundColor="#F5F5F5">
+             BackgroundColor="#F7F2EB">
 
-    <Grid RowDefinitions="Auto,*" Padding="20" RowSpacing="15">
+    <Grid RowDefinitions="Auto,*"
+          Padding="24,30,24,20"
+          RowSpacing="25">
 
+        
         <Label
             Grid.Row="0"
             Text="Reservas registradas"
-            FontSize="22"
-            FontAttributes="Bold" />
+            FontFamily="Georgia"
+            FontSize="29"
+            FontAttributes="Bold"
+            TextColor="#1C1B19"
+            VerticalOptions="Center"/>
 
-        <CollectionView Grid.Row="1" ItemsSource="{Binding Reservas}">
+        
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding Reservas}">
 
             <CollectionView.EmptyView>
                 <Label
                     Text="Todavía no hay reservas. Crea una desde 'Nueva Reserva'."
                     TextColor="Gray"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"/>
             </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Reserva">
+
+                    
                     <Border
-                        Stroke="#DDDDDD"
-                        StrokeShape="RoundRectangle 12"
+                        Stroke="#E6E0D6"
+                        StrokeThickness="1.5"
+                        StrokeShape="RoundRectangle 25"
                         BackgroundColor="White"
-                        Padding="15"
-                        Margin="0,6">
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="{Binding ClienteNombre}" FontAttributes="Bold" FontSize="16" />
-                            <Label Text="{Binding ClienteTelefono}" TextColor="Gray" />
-                            <Label Text="{Binding Barbero, StringFormat='Barbero: {0}'}" />
-                            <Label Text="{Binding Servicio, StringFormat='Servicio: {0}'}" />
-                            <Label Text="{Binding FechaHoraTexto}" FontSize="13" />
-                        </VerticalStackLayout>
+                        Padding="18"
+                        Margin="0,0,0,12">
+
+                        <Grid ColumnDefinitions="85,*"
+                              ColumnSpacing="15">
+
+                            
+                            <Border
+                                Grid.Column="0"
+                                WidthRequest="70"
+                                HeightRequest="70"
+                                BackgroundColor="#1C1B19"
+                                Stroke="Transparent"
+                                StrokeShape="Ellipse"
+                                VerticalOptions="Start">
+
+                                <Label
+                                    Text="✂"
+                                    FontSize="27"
+                                    TextColor="#C9A447"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"/>
+                            </Border>
+
+                            
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Spacing="8">
+
+                                <Label
+                                    Text="{Binding ClienteNombre}"
+                                    FontSize="18"
+                                    FontAttributes="Bold"
+                                    TextColor="#1C1B19"/>
+
+                                <Label
+                                    Text="{Binding ClienteTelefono}"
+                                    FontSize="16"
+                                    TextColor="#888888"/>
+
+                                <Label
+                                    Text="{Binding Barbero, StringFormat='Barbero: {0}'}"
+                                    FontSize="16"
+                                    TextColor="#292929"/>
+
+                                <Label
+                                    Text="{Binding Servicio, StringFormat='Servicio: {0}'}"
+                                    FontSize="16"
+                                    TextColor="#292929"/>
+
+                                
+                                <Border
+                                    BackgroundColor="#F2E8CC"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 18"
+                                    Padding="12,8"
+                                    HorizontalOptions="Start"
+                                    Margin="0,8,0,0">
+
+                                    <Label
+                                        Text="{Binding FechaHoraTexto}"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        TextColor="#79591F"/>
+
+                                </Border>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
                     </Border>
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
         </CollectionView>
+
     </Grid>
+
 </ContentPage>

@@ -3,100 +3,242 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ReservasBarberia.Views.FormularioReservaPage"
              Title="Nueva Reserva"
-             BackgroundColor="#F5F5F5">
+             BackgroundColor="#F7F2EB">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="14">
+        <VerticalStackLayout
+            Padding="24,30,24,25"
+            Spacing="20">
 
+            
             <Label
                 Text="Nueva Reserva"
-                FontSize="22"
-                FontAttributes="Bold" />
+                FontFamily="Georgia"
+                FontSize="30"
+                FontAttributes="Bold"
+                TextColor="#1C1B19"
+                Margin="0,0,0,10"/>
 
             
-            <VerticalStackLayout Spacing="4">
-                <Label Text="Nombre del cliente *" FontAttributes="Bold" />
-                <Entry Text="{Binding ClienteNombre}" Placeholder="Ej: Juan Pérez" />
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    Text="Nombre del cliente "
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="#1C1B19"/>
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E6E0D6"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="12,0"
+                    HeightRequest="62">
+
+                    <Entry
+                        Text="{Binding ClienteNombre}"
+                        Placeholder="Ej: Juan Pérez"
+                        PlaceholderColor="#888888"
+                        TextColor="#1C1B19"
+                        FontSize="17"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"/>
+                </Border>
+
                 <Label
                     Text="{Binding ErrorNombre}"
-                    TextColor="Red"
-                    FontSize="13"
-                    IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}" />
+                    TextColor="#B43D35"
+                    FontSize="14"
+                    IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}"/>
             </VerticalStackLayout>
 
             
-            <VerticalStackLayout Spacing="4">
-                <Label Text="Teléfono *" FontAttributes="Bold" />
-                <Entry Text="{Binding ClienteTelefono}" Placeholder="809-000-0000" Keyboard="Telephone" />
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    Text="Teléfono "
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="#1C1B19"/>
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E6E0D6"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="12,0"
+                    HeightRequest="62">
+
+                    <Entry
+                        Text="{Binding ClienteTelefono}"
+                        Placeholder="809-000-0000"
+                        PlaceholderColor="#888888"
+                        TextColor="#1C1B19"
+                        FontSize="17"
+                        Keyboard="Telephone"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"/>
+                </Border>
+
                 <Label
                     Text="{Binding ErrorTelefono}"
-                    TextColor="Red"
-                    FontSize="13"
-                    IsVisible="{Binding ErrorTelefono, Converter={StaticResource TieneTexto}}" />
+                    TextColor="#B43D35"
+                    FontSize="14"
+                    IsVisible="{Binding ErrorTelefono, Converter={StaticResource TieneTexto}}"/>
             </VerticalStackLayout>
 
             
-            <VerticalStackLayout Spacing="4">
-                <Label Text="Barbero *" FontAttributes="Bold" />
-                <Picker
-                    Title="Selecciona un barbero"
-                    ItemsSource="{Binding Barberos}"
-                    ItemDisplayBinding="{Binding Nombre}"
-                    SelectedItem="{Binding BarberoSeleccionado}" />
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    Text="Barbero"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="#1C1B19"/>
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E6E0D6"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="12,0"
+                    HeightRequest="62">
+
+                    <Picker
+                        Title="Selecciona un barbero"
+                        TitleColor="#888888"
+                        ItemsSource="{Binding Barberos}"
+                        ItemDisplayBinding="{Binding Nombre}"
+                        SelectedItem="{Binding BarberoSeleccionado}"
+                        TextColor="#1C1B19"
+                        FontSize="17"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"/>
+                </Border>
+
                 <Label
                     Text="{Binding ErrorBarbero}"
-                    TextColor="Red"
-                    FontSize="13"
-                    IsVisible="{Binding ErrorBarbero, Converter={StaticResource TieneTexto}}" />
+                    TextColor="#B43D35"
+                    FontSize="14"
+                    IsVisible="{Binding ErrorBarbero, Converter={StaticResource TieneTexto}}"/>
             </VerticalStackLayout>
 
             
-            <VerticalStackLayout Spacing="4">
-                <Label Text="Servicio *" FontAttributes="Bold" />
-                <Picker
-                    Title="Selecciona un servicio"
-                    ItemsSource="{Binding Servicios}"
-                    ItemDisplayBinding="{Binding Nombre}"
-                    SelectedItem="{Binding ServicioSeleccionado}" />
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    Text="Servicio "
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="#1C1B19"/>
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E6E0D6"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="12,0"
+                    HeightRequest="62">
+
+                    <Picker
+                        Title="Selecciona un servicio"
+                        TitleColor="#888888"
+                        ItemsSource="{Binding Servicios}"
+                        ItemDisplayBinding="{Binding Nombre}"
+                        SelectedItem="{Binding ServicioSeleccionado}"
+                        TextColor="#1C1B19"
+                        FontSize="17"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"/>
+                </Border>
+
                 <Label
                     Text="{Binding ErrorServicio}"
-                    TextColor="Red"
-                    FontSize="13"
-                    IsVisible="{Binding ErrorServicio, Converter={StaticResource TieneTexto}}" />
+                    TextColor="#B43D35"
+                    FontSize="14"
+                    IsVisible="{Binding ErrorServicio, Converter={StaticResource TieneTexto}}"/>
             </VerticalStackLayout>
 
             
-            <VerticalStackLayout Spacing="4">
-                <Label Text="Fecha *" FontAttributes="Bold" />
-                <DatePicker
-                    Date="{Binding Fecha}"
-                    MinimumDate="{Binding FechaMinima}" />
-                <Label
-                    Text="{Binding ErrorFecha}"
-                    TextColor="Red"
-                    FontSize="13"
-                    IsVisible="{Binding ErrorFecha, Converter={StaticResource TieneTexto}}" />
-            </VerticalStackLayout>
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="15">
 
-            <!-- Hora -->
-            <VerticalStackLayout Spacing="4">
-                <Label Text="Hora *" FontAttributes="Bold" />
-                <TimePicker Time="{Binding Hora}" />
-                <Label
-                    Text="{Binding ErrorHora}"
-                    TextColor="Red"
-                    FontSize="13"
-                    IsVisible="{Binding ErrorHora, Converter={StaticResource TieneTexto}}" />
-            </VerticalStackLayout>
+                
+                <VerticalStackLayout Grid.Column="0" Spacing="6">
+                    <Label
+                        Text="Fecha "
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="#1C1B19"/>
 
+                    <Border
+                        BackgroundColor="White"
+                        Stroke="#E6E0D6"
+                        StrokeThickness="1.5"
+                        StrokeShape="RoundRectangle 20"
+                        Padding="8,0"
+                        HeightRequest="68">
+
+                        <DatePicker
+                            Date="{Binding Fecha}"
+                            MinimumDate="{Binding FechaMinima}"
+                            Format="dd/MM/yyyy"
+                            TextColor="#1C1B19"
+                            FontSize="16"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label
+                        Text="{Binding ErrorFecha}"
+                        TextColor="#B43D35"
+                        FontSize="12"
+                        IsVisible="{Binding ErrorFecha, Converter={StaticResource TieneTexto}}"/>
+                </VerticalStackLayout>
+
+                
+                <VerticalStackLayout Grid.Column="1" Spacing="6">
+                    <Label
+                        Text="Hora "
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="#1C1B19"/>
+
+                    <Border
+                        BackgroundColor="White"
+                        Stroke="#E6E0D6"
+                        StrokeThickness="1.5"
+                        StrokeShape="RoundRectangle 20"
+                        Padding="8,0"
+                        HeightRequest="68">
+
+                        <TimePicker
+                            Time="{Binding Hora}"
+                            Format="h:mm tt"
+                            TextColor="#1C1B19"
+                            FontSize="16"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label
+                        Text="{Binding ErrorHora}"
+                        TextColor="#B43D35"
+                        FontSize="12"
+                        IsVisible="{Binding ErrorHora, Converter={StaticResource TieneTexto}}"/>
+                </VerticalStackLayout>
+
+            </Grid>
+
+            
             <Button
                 Text="Guardar reserva"
-                BackgroundColor="#2C3E50"
-                TextColor="White"
-                CornerRadius="10"
-                HeightRequest="50"
-                Margin="0,10,0,0"
-                Command="{Binding GuardarCommand}" />
+                BackgroundColor="#C9A447"
+                TextColor="#1C1B19"
+                FontAttributes="Bold"
+                FontSize="18"
+                CornerRadius="20"
+                HeightRequest="68"
+                Margin="0,0,0,0"
+                Command="{Binding GuardarCommand}"/>
 
         </VerticalStackLayout>
     </ScrollView>

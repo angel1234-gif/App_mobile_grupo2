@@ -2,82 +2,228 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:ReservasBarberia.Models"
+             xmlns:converters="clr-namespace:ReservasBarberia.Converters"
              x:Class="ReservasBarberia.Views.BarberosPage"
              Title="Barberos"
-             BackgroundColor="#F5F5F5">
+             BackgroundColor="#F7F2EB">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InicialConverter
+                x:Key="InicialConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="14">
-
-            <Label Text="Nuevo barbero" FontSize="22" FontAttributes="Bold" />
+        <VerticalStackLayout
+            Padding="24,30,24,25"
+            Spacing="20">
 
             
-            <VerticalStackLayout Spacing="4">
-                <Label Text="Nombre *" FontAttributes="Bold" />
-                <Entry Text="{Binding Nombre}" Placeholder="Ej: Junior Pérez" />
+            <Label
+                Text="Nuevo barbero"
+                FontFamily="Georgia"
+                FontSize="30"
+                FontAttributes="Bold"
+                TextColor="#1C1B19"
+                Margin="0,0,0,10"/>
+
+            
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    Text="Nombre "
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="#1C1B19"/>
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E6E0D6"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    HeightRequest="62"
+                    Padding="12,0">
+
+                    <Entry
+                        Text="{Binding Nombre}"
+                        Placeholder="Ej: Junior Pérez"
+                        PlaceholderColor="#888888"
+                        TextColor="#1C1B19"
+                        FontSize="17"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"/>
+                </Border>
+
                 <Label
                     Text="{Binding ErrorNombre}"
-                    TextColor="Red"
-                    FontSize="13"
-                    IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}" />
+                    TextColor="#B43D35"
+                    FontSize="14"
+                    IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}"/>
             </VerticalStackLayout>
 
             
-            <VerticalStackLayout Spacing="4">
-                <Label Text="Especialidad *" FontAttributes="Bold" />
-                <Entry Text="{Binding Especialidad}" Placeholder="Ej: Fade y diseño" />
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    Text="Especialidad"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="#1C1B19"/>
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E6E0D6"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    HeightRequest="62"
+                    Padding="12,0">
+
+                    <Entry
+                        Text="{Binding Especialidad}"
+                        Placeholder="Ej: Fade y diseño"
+                        PlaceholderColor="#888888"
+                        TextColor="#1C1B19"
+                        FontSize="17"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"/>
+                </Border>
+
                 <Label
                     Text="{Binding ErrorEspecialidad}"
-                    TextColor="Red"
-                    FontSize="13"
-                    IsVisible="{Binding ErrorEspecialidad, Converter={StaticResource TieneTexto}}" />
+                    TextColor="#B43D35"
+                    FontSize="14"
+                    IsVisible="{Binding ErrorEspecialidad, Converter={StaticResource TieneTexto}}"/>
             </VerticalStackLayout>
 
             
-            <VerticalStackLayout Spacing="4">
-                <Label Text="Teléfono *" FontAttributes="Bold" />
-                <Entry Text="{Binding Telefono}" Placeholder="809-000-0000" Keyboard="Telephone" />
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    Text="Teléfono "
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="#1C1B19"/>
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E6E0D6"
+                    StrokeThickness="1.5"
+                    StrokeShape="RoundRectangle 20"
+                    HeightRequest="62"
+                    Padding="12,0">
+
+                    <Entry
+                        Text="{Binding Telefono}"
+                        Placeholder="809-000-0000"
+                        PlaceholderColor="#888888"
+                        TextColor="#1C1B19"
+                        FontSize="17"
+                        Keyboard="Telephone"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"/>
+                </Border>
+
                 <Label
                     Text="{Binding ErrorTelefono}"
-                    TextColor="Red"
-                    FontSize="13"
-                    IsVisible="{Binding ErrorTelefono, Converter={StaticResource TieneTexto}}" />
+                    TextColor="#B43D35"
+                    FontSize="14"
+                    IsVisible="{Binding ErrorTelefono, Converter={StaticResource TieneTexto}}"/>
             </VerticalStackLayout>
 
+            
             <Button
                 Text="Guardar barbero"
-                BackgroundColor="#2C3E50"
-                TextColor="White"
-                CornerRadius="10"
-                HeightRequest="50"
-                Margin="0,10,0,0"
-                Command="{Binding GuardarCommand}" />
+                BackgroundColor="#C9A447"
+                TextColor="#1C1B19"
+                FontAttributes="Bold"
+                FontSize="18"
+                CornerRadius="20"
+                HeightRequest="68"
+                Margin="0,0,0,5"
+                Command="{Binding GuardarCommand}"/>
 
+            
             <Label
                 Text="Barberos registrados"
-                FontSize="22"
+                FontFamily="Georgia"
+                FontSize="25"
                 FontAttributes="Bold"
-                Margin="0,20,0,0" />
+                TextColor="#1C1B19"
+                Margin="0,15,0,0"/>
 
-            <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Barberos}">
+            
+            <VerticalStackLayout
+                Spacing="14"
+                BindableLayout.ItemsSource="{Binding Barberos}">
 
                 <BindableLayout.EmptyView>
-                    <Label Text="Todavía no hay barberos registrados." TextColor="Gray" />
+                    <Label
+                        Text="Todavía no hay barberos registrados."
+                        TextColor="Gray"
+                        HorizontalOptions="Center"/>
                 </BindableLayout.EmptyView>
 
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:Barbero">
+
+                        
                         <Border
-                            Stroke="#DDDDDD"
-                            StrokeShape="RoundRectangle 12"
+                            Stroke="#E6E0D6"
+                            StrokeThickness="1.5"
+                            StrokeShape="RoundRectangle 25"
                             BackgroundColor="White"
-                            Padding="15">
-                            <VerticalStackLayout Spacing="5">
-                                <Label Text="{Binding Nombre}" FontAttributes="Bold" FontSize="16" />
-                                <Label Text="{Binding Especialidad}" />
-                                <Label Text="{Binding Telefono}" TextColor="Gray" />
-                            </VerticalStackLayout>
+                            Padding="18">
+
+                            <Grid
+                                ColumnDefinitions="85,*"
+                                ColumnSpacing="15">
+
+                                
+                                <Border
+                                    Grid.Column="0"
+                                    WidthRequest="70"
+                                    HeightRequest="70"
+                                    BackgroundColor="#1C1B19"
+                                    Stroke="Transparent"
+                                    StrokeShape="Ellipse"
+                                    VerticalOptions="Center">
+
+                                    <Label
+                                        Text="{Binding Nombre, Converter={StaticResource InicialConverter}}"
+                                        FontFamily="Georgia"
+                                        FontSize="27"
+                                        FontAttributes="Bold"
+                                        TextColor="#C9A447"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"/>
+                                </Border>
+
+                                
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="7"
+                                    VerticalOptions="Center">
+
+                                    <Label
+                                        Text="{Binding Nombre}"
+                                        FontSize="18"
+                                        FontAttributes="Bold"
+                                        TextColor="#1C1B19"/>
+
+                                    <Label
+                                        Text="{Binding Especialidad}"
+                                        FontSize="16"
+                                        TextColor="#292929"/>
+
+                                    <Label
+                                        Text="{Binding Telefono}"
+                                        FontSize="15"
+                                        TextColor="#888888"/>
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
                         </Border>
+
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
 

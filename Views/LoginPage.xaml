@@ -4,54 +4,148 @@
              x:Class="ReservasBarberia.Views.LoginPage"
              Title="Iniciar sesión"
              Shell.FlyoutBehavior="Disabled"
-             BackgroundColor="#F5F5F5">
+             BackgroundColor="#1C1B19">
 
-    <VerticalStackLayout
-        Padding="30"
-        Spacing="16"
-        VerticalOptions="Center">
+    <ScrollView VerticalOptions="Fill">
 
-        <Label
-            Text="Reservas Barbería"
-            FontSize="28"
-            FontAttributes="Bold"
-            HorizontalOptions="Center" />
+        <VerticalStackLayout
+            Padding="28,45,28,45"
+            Spacing="0"
+            VerticalOptions="Center">
 
-        <Label
-            Text="Inicia sesión para continuar"
-            FontSize="14"
-            TextColor="Gray"
-            HorizontalOptions="Center"
-            Margin="0,0,0,10" />
+            
+            <Border
+                WidthRequest="90"
+                HeightRequest="90"
+                Stroke="#C9A447"
+                StrokeThickness="2"
+                BackgroundColor="Transparent"
+                StrokeShape="Ellipse"
+                HorizontalOptions="Center">
 
-        
-        <VerticalStackLayout Spacing="4">
-            <Entry Text="{Binding Usuario}" Placeholder="Usuario" />
+                <Label
+                    Text="B"
+                    FontFamily="Georgia"
+                    FontSize="38"
+                    FontAttributes="Bold"
+                    TextColor="#C9A447"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"/>
+            </Border>
+
+            
             <Label
-                Text="{Binding ErrorUsuario}"
-                TextColor="Red"
-                FontSize="13"
-                IsVisible="{Binding ErrorUsuario, Converter={StaticResource TieneTexto}}" />
+                Text="Reservas Barbería"
+                FontFamily="Georgia"
+                FontSize="30"
+                FontAttributes="Bold"
+                TextColor="#F7F2EB"
+                HorizontalTextAlignment="Center"
+                Margin="0,24,0,0"/>
+
+            
+            <Label
+                Text="Inicia sesión para continuar"
+                FontSize="16"
+                TextColor="#C9C3BA"
+                HorizontalTextAlignment="Center"
+                Margin="0,12,0,0"/>
+
+            
+            <Border
+                BackgroundColor="#F7F2EB"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 28"
+                Padding="24"
+                Margin="0,48,0,0">
+
+                <VerticalStackLayout Spacing="0">
+
+                    
+                    <Label
+                        Text="Usuario"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="#1C1B19"/>
+
+                    <Border
+                        BackgroundColor="White"
+                        Stroke="#E6E0D6"
+                        StrokeThickness="1.5"
+                        StrokeShape="RoundRectangle 15"
+                        HeightRequest="54"
+                        Padding="12,0"
+                        Margin="0,10,0,4">
+
+                        <Entry
+                            Text="{Binding Usuario}"
+                            Placeholder="Usuario"
+                            PlaceholderColor="#888888"
+                            TextColor="#1C1B19"
+                            FontSize="16"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label
+                        Text="{Binding ErrorUsuario}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding ErrorUsuario, Converter={StaticResource TieneTexto}}"
+                        Margin="0,0,0,20"/>
+
+                    
+                    <Label
+                        Text="Contraseña"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        TextColor="#1C1B19"/>
+
+                    <Border
+                        BackgroundColor="White"
+                        Stroke="#E6E0D6"
+                        StrokeThickness="1.5"
+                        StrokeShape="RoundRectangle 15"
+                        HeightRequest="54"
+                        Padding="12,0"
+                        Margin="0,10,0,4">
+
+                        <Entry
+                            Text="{Binding Clave}"
+                            Placeholder="Contraseña"
+                            PlaceholderColor="#888888"
+                            TextColor="#1C1B19"
+                            FontSize="16"
+                            IsPassword="True"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label
+                        Text="{Binding ErrorClave}"
+                        TextColor="Red"
+                        FontSize="13"
+                        IsVisible="{Binding ErrorClave, Converter={StaticResource TieneTexto}}"
+                        Margin="0,0,0,20"/>
+
+                    
+                    <Button
+                        Text="Iniciar sesión"
+                        BackgroundColor="#C9A447"
+                        TextColor="#1C1B19"
+                        FontAttributes="Bold"
+                        FontSize="17"
+                        CornerRadius="18"
+                        HeightRequest="58"
+                        Margin="0,0,0,0"
+                        Command="{Binding IngresarCommand}" />
+
+                </VerticalStackLayout>
+
+            </Border>
+
         </VerticalStackLayout>
 
-        
-        <VerticalStackLayout Spacing="4">
-            <Entry Text="{Binding Clave}" Placeholder="Contraseña" IsPassword="True" />
-            <Label
-                Text="{Binding ErrorClave}"
-                TextColor="Red"
-                FontSize="13"
-                IsVisible="{Binding ErrorClave, Converter={StaticResource TieneTexto}}" />
-        </VerticalStackLayout>
+    </ScrollView>
 
-        <Button
-            Text="Iniciar sesión"
-            BackgroundColor="#2C3E50"
-            TextColor="White"
-            CornerRadius="10"
-            HeightRequest="50"
-            Margin="0,10,0,0"
-            Command="{Binding IngresarCommand}" />
-
-    </VerticalStackLayout>
 </ContentPage>
