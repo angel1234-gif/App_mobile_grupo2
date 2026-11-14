@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="ReservasBarberia.Views.FormularioReservaPage"
-    Title="Nueva Reserva"
+    Title="{Binding Titulo}"
     BackgroundColor="#101010">
 
     <ScrollView>
@@ -11,7 +11,7 @@
             Padding="22,28,22,30"
             Spacing="20">
 
-            
+
             <VerticalStackLayout Spacing="7">
 
                 <Label
@@ -22,7 +22,7 @@
                     TextColor="#D4AF37"/>
 
                 <Label
-                    Text="Nueva Reserva"
+                    Text="{Binding Titulo}"
                     FontFamily="Georgia"
                     FontSize="30"
                     FontAttributes="Bold"
@@ -42,7 +42,7 @@
 
             </VerticalStackLayout>
 
-            
+
             <Border
                 BackgroundColor="#1C1C1C"
                 Stroke="#383838"
@@ -52,7 +52,7 @@
 
                 <VerticalStackLayout Spacing="19">
 
-                    
+
                     <Label
                         Text="INFORMACIÓN DEL CLIENTE"
                         FontSize="13"
@@ -60,7 +60,7 @@
                         FontAttributes="Bold"
                         TextColor="#D4AF37"/>
 
-                    
+
                     <VerticalStackLayout Spacing="7">
 
                         <Label
@@ -96,7 +96,7 @@
 
                     </VerticalStackLayout>
 
-                    
+
                     <VerticalStackLayout Spacing="7">
 
                         <Label
@@ -138,7 +138,7 @@
                         HeightRequest="1"
                         Margin="0,3"/>
 
-                    
+
                     <Label
                         Text="DETALLES DE LA RESERVA"
                         FontSize="13"
@@ -146,7 +146,7 @@
                         FontAttributes="Bold"
                         TextColor="#D4AF37"/>
 
-                    
+
                     <VerticalStackLayout Spacing="7">
 
                         <Label
@@ -184,7 +184,7 @@
 
                     </VerticalStackLayout>
 
-                    
+
                     <VerticalStackLayout Spacing="7">
 
                         <Label
@@ -227,7 +227,7 @@
                         HeightRequest="1"
                         Margin="0,3"/>
 
-                    
+
                     <Label
                         Text="FECHA Y HORARIO"
                         FontSize="13"
@@ -239,7 +239,7 @@
                         ColumnDefinitions="*,*"
                         ColumnSpacing="12">
 
-                        <!-- FECHA -->
+                        
                         <VerticalStackLayout
                             Grid.Column="0"
                             Spacing="7">
@@ -277,7 +277,7 @@
 
                         </VerticalStackLayout>
 
-                        
+
                         <VerticalStackLayout
                             Grid.Column="1"
                             Spacing="7">
@@ -316,9 +316,10 @@
 
                     </Grid>
 
-                    
+
                     <Button
-                        Text="✓   GUARDAR RESERVA"
+                        Text="{Binding TextoBotonGuardar, StringFormat='✓   {0}'}"
+                        TextTransform="Uppercase"
                         BackgroundColor="#D4AF37"
                         TextColor="#101010"
                         FontAttributes="Bold"
@@ -329,11 +330,41 @@
                         Margin="0,12,0,0"
                         Command="{Binding GuardarCommand}"/>
 
+                    
+                    <VerticalStackLayout Spacing="12" IsVisible="{Binding EsEdicion}">
+
+                        <Button
+                            Text="ELIMINAR RESERVA"
+                            BackgroundColor="Transparent"
+                            TextColor="#FF6B6B"
+                            BorderColor="#FF6B6B"
+                            BorderWidth="1"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            CharacterSpacing="1"
+                            CornerRadius="14"
+                            HeightRequest="54"
+                            Command="{Binding EliminarActualCommand}"/>
+
+                        <Button
+                            Text="CANCELAR"
+                            BackgroundColor="Transparent"
+                            TextColor="#AAAAAA"
+                            BorderColor="#444444"
+                            BorderWidth="1"
+                            FontSize="15"
+                            CharacterSpacing="1"
+                            CornerRadius="14"
+                            HeightRequest="54"
+                            Command="{Binding CancelarEdicionCommand}"/>
+
+                    </VerticalStackLayout>
+
                 </VerticalStackLayout>
 
             </Border>
 
-            
+
             <Label
                 Text="✂  TU ESTILO, NUESTRA PASIÓN"
                 FontSize="11"

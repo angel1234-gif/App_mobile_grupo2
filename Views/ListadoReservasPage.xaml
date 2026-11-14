@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:ReservasBarberia.Models"
+    xmlns:vm="clr-namespace:ReservasBarberia.ViewModels"
     x:Class="ReservasBarberia.Views.ListadoReservasPage"
     Title="Mis Reservas"
     BackgroundColor="#101010">
@@ -12,7 +13,7 @@
         Padding="22,30,22,20"
         RowSpacing="22">
 
-        
+
         <VerticalStackLayout
             Grid.Row="0"
             Spacing="8">
@@ -45,13 +46,13 @@
 
         </VerticalStackLayout>
 
-        
+
         <CollectionView
             Grid.Row="1"
             ItemsSource="{Binding Reservas}"
             SelectionMode="None">
 
-            
+
             <CollectionView.EmptyView>
 
                 <VerticalStackLayout
@@ -83,10 +84,10 @@
 
             </CollectionView.EmptyView>
 
-            
+
             <CollectionView.ItemTemplate>
 
-                <DataTemplate x:DataType="models:Reserva">
+                <DataTemplate>
 
                     <Border
                         Stroke="#383838"
@@ -96,11 +97,18 @@
                         Padding="17"
                         Margin="0,0,0,14">
 
+                        
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReservaViewModel}}, Path=EditarCommand}"
+                                CommandParameter="{Binding .}"/>
+                        </Border.GestureRecognizers>
+
                         <VerticalStackLayout Spacing="14">
 
-                            <!-- CLIENTE -->
+                            
                             <Grid
-                                ColumnDefinitions="65,*"
+                                ColumnDefinitions="65,*,Auto"
                                 ColumnSpacing="13">
 
                                 <Border
@@ -140,13 +148,30 @@
 
                                 </VerticalStackLayout>
 
+                                
+                                <Button
+                                    Grid.Column="2"
+                                    Text="Eliminar"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    Padding="12,0"
+                                    HeightRequest="34"
+                                    VerticalOptions="Start"
+                                    BackgroundColor="Transparent"
+                                    TextColor="#FF6B6B"
+                                    BorderColor="#FF6B6B"
+                                    BorderWidth="1"
+                                    CornerRadius="10"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReservaViewModel}}, Path=EliminarDeListaCommand}"
+                                    CommandParameter="{Binding .}"/>
+
                             </Grid>
 
                             <BoxView
                                 Color="#383838"
                                 HeightRequest="1"/>
 
-                            
+
                             <VerticalStackLayout Spacing="10">
 
                                 <Grid ColumnDefinitions="28,*">
@@ -183,7 +208,7 @@
 
                             </VerticalStackLayout>
 
-                            
+
                             <Border
                                 BackgroundColor="#302A1B"
                                 Stroke="#8D712B"
