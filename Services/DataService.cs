@@ -46,4 +46,69 @@ public class DataService
         reserva.Id = Reservas.Count == 0 ? 1 : Reservas.Max(r => r.Id) + 1;
         Reservas.Add(reserva);
     }
+
+
+  
+
+
+
+
+
+    public void ActualizarBarbero(Barbero editado)
+    {
+        var actual = Barberos.FirstOrDefault(b => b.Id == editado.Id);
+        if (actual is not null)
+            Barberos[Barberos.IndexOf(actual)] = editado;
+    }
+
+    public void ActualizarServicio(Servicio editado)
+    {
+        var actual = Servicios.FirstOrDefault(s => s.Id == editado.Id);
+        if (actual is not null)
+            Servicios[Servicios.IndexOf(actual)] = editado;
+    }
+
+    public void ActualizarCliente(Cliente editado)
+    {
+        var actual = Clientes.FirstOrDefault(c => c.Id == editado.Id);
+        if (actual is not null)
+            Clientes[Clientes.IndexOf(actual)] = editado;
+    }
+
+    public void ActualizarReserva(Reserva editada)
+    {
+        var actual = Reservas.FirstOrDefault(r => r.Id == editada.Id);
+        if (actual is not null)
+            Reservas[Reservas.IndexOf(actual)] = editada;
+    }
+
+    
+    public void EliminarBarbero(Barbero barbero)
+    {
+        var actual = Barberos.FirstOrDefault(b => b.Id == barbero.Id);
+        if (actual is not null)
+            Barberos.Remove(actual);
+    }
+
+    public void EliminarServicio(Servicio servicio)
+    {
+        var actual = Servicios.FirstOrDefault(s => s.Id == servicio.Id);
+        if (actual is not null)
+            Servicios.Remove(actual);
+    }
+
+    public void EliminarCliente(Cliente cliente)
+    {
+        var actual = Clientes.FirstOrDefault(c => c.Id == cliente.Id);
+        if (actual is not null)
+            Clientes.Remove(actual);
+    }
+
+    public void EliminarReserva(Reserva reserva)
+    {
+        var actual = Reservas.FirstOrDefault(r => r.Id == reserva.Id);
+        if (actual is not null)
+            Reservas.Remove(actual);
+    }
+    public Reserva? ReservaPorEditar { get; set; }
 }

@@ -1,121 +1,223 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:ReservasBarberia.Models"
-             x:Class="ReservasBarberia.Views.ListadoReservasPage"
-             Title="Mis Reservas"
-             BackgroundColor="#F7F2EB">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:ReservasBarberia.Models"
+    x:Class="ReservasBarberia.Views.ListadoReservasPage"
+    Title="Mis Reservas"
+    BackgroundColor="#101010">
 
-    <Grid RowDefinitions="Auto,*"
-          Padding="24,30,24,20"
-          RowSpacing="25">
+    <Grid
+        RowDefinitions="Auto,*"
+        Padding="22,30,22,20"
+        RowSpacing="22">
 
         
-        <Label
+        <VerticalStackLayout
             Grid.Row="0"
-            Text="Reservas registradas"
-            FontFamily="Georgia"
-            FontSize="29"
-            FontAttributes="Bold"
-            TextColor="#1C1B19"
-            VerticalOptions="Center"/>
+            Spacing="8">
+
+            <Label
+                Text="GESTIÓN DE CITAS"
+                FontSize="12"
+                CharacterSpacing="3"
+                FontAttributes="Bold"
+                TextColor="#D4AF37"/>
+
+            <Label
+                Text="Mis Reservas"
+                FontFamily="Georgia"
+                FontSize="29"
+                FontAttributes="Bold"
+                TextColor="#FFFFFF"/>
+
+            <Label
+                Text="Consulta las reservas de tus clientes"
+                FontSize="14"
+                TextColor="#AAAAAA"/>
+
+            <BoxView
+                Color="#D4AF37"
+                HeightRequest="2"
+                WidthRequest="55"
+                HorizontalOptions="Start"
+                Margin="0,8,0,0"/>
+
+        </VerticalStackLayout>
 
         
         <CollectionView
             Grid.Row="1"
-            ItemsSource="{Binding Reservas}">
+            ItemsSource="{Binding Reservas}"
+            SelectionMode="None">
 
+            
             <CollectionView.EmptyView>
-                <Label
-                    Text="Todavía no hay reservas. Crea una desde 'Nueva Reserva'."
-                    TextColor="Gray"
+
+                <VerticalStackLayout
+                    Spacing="15"
+                    VerticalOptions="Center"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center"/>
+                    Padding="25">
+
+                    <Label
+                        Text="✂"
+                        FontSize="55"
+                        TextColor="#D4AF37"
+                        HorizontalTextAlignment="Center"/>
+
+                    <Label
+                        Text="No hay reservas todavía"
+                        FontSize="19"
+                        FontAttributes="Bold"
+                        TextColor="#FFFFFF"
+                        HorizontalTextAlignment="Center"/>
+
+                    <Label
+                        Text="Cuando registres una nueva cita, aparecerá aquí."
+                        FontSize="13"
+                        TextColor="#AAAAAA"
+                        HorizontalTextAlignment="Center"/>
+
+                </VerticalStackLayout>
+
             </CollectionView.EmptyView>
 
+            
             <CollectionView.ItemTemplate>
+
                 <DataTemplate x:DataType="models:Reserva">
 
-                    
                     <Border
-                        Stroke="#E6E0D6"
-                        StrokeThickness="1.5"
-                        StrokeShape="RoundRectangle 25"
-                        BackgroundColor="White"
-                        Padding="18"
-                        Margin="0,0,0,12">
+                        Stroke="#383838"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="#1C1C1C"
+                        Padding="17"
+                        Margin="0,0,0,14">
 
-                        <Grid ColumnDefinitions="85,*"
-                              ColumnSpacing="15">
+                        <VerticalStackLayout Spacing="14">
 
-                            
-                            <Border
-                                Grid.Column="0"
-                                WidthRequest="70"
-                                HeightRequest="70"
-                                BackgroundColor="#1C1B19"
-                                Stroke="Transparent"
-                                StrokeShape="Ellipse"
-                                VerticalOptions="Start">
+                            <!-- CLIENTE -->
+                            <Grid
+                                ColumnDefinitions="65,*"
+                                ColumnSpacing="13">
 
-                                <Label
-                                    Text="✂"
-                                    FontSize="27"
-                                    TextColor="#C9A447"
-                                    HorizontalTextAlignment="Center"
-                                    VerticalTextAlignment="Center"/>
-                            </Border>
-
-                            
-                            <VerticalStackLayout
-                                Grid.Column="1"
-                                Spacing="8">
-
-                                <Label
-                                    Text="{Binding ClienteNombre}"
-                                    FontSize="18"
-                                    FontAttributes="Bold"
-                                    TextColor="#1C1B19"/>
-
-                                <Label
-                                    Text="{Binding ClienteTelefono}"
-                                    FontSize="16"
-                                    TextColor="#888888"/>
-
-                                <Label
-                                    Text="{Binding Barbero, StringFormat='Barbero: {0}'}"
-                                    FontSize="16"
-                                    TextColor="#292929"/>
-
-                                <Label
-                                    Text="{Binding Servicio, StringFormat='Servicio: {0}'}"
-                                    FontSize="16"
-                                    TextColor="#292929"/>
-
-                                
                                 <Border
-                                    BackgroundColor="#F2E8CC"
-                                    Stroke="Transparent"
-                                    StrokeShape="RoundRectangle 18"
-                                    Padding="12,8"
-                                    HorizontalOptions="Start"
-                                    Margin="0,8,0,0">
+                                    Grid.Column="0"
+                                    WidthRequest="58"
+                                    HeightRequest="58"
+                                    BackgroundColor="#292929"
+                                    Stroke="#D4AF37"
+                                    StrokeThickness="1.5"
+                                    StrokeShape="Ellipse"
+                                    VerticalOptions="Center">
 
                                     <Label
-                                        Text="{Binding FechaHoraTexto}"
-                                        FontSize="14"
-                                        FontAttributes="Bold"
-                                        TextColor="#79591F"/>
+                                        Text="✂"
+                                        FontSize="25"
+                                        TextColor="#D4AF37"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"/>
 
                                 </Border>
 
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="5"
+                                    VerticalOptions="Center">
+
+                                    <Label
+                                        Text="{Binding ClienteNombre}"
+                                        FontSize="18"
+                                        FontAttributes="Bold"
+                                        TextColor="#FFFFFF"/>
+
+                                    <Label
+                                        Text="{Binding ClienteTelefono}"
+                                        FontSize="13"
+                                        TextColor="#AAAAAA"/>
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                            <BoxView
+                                Color="#383838"
+                                HeightRequest="1"/>
+
+                            
+                            <VerticalStackLayout Spacing="10">
+
+                                <Grid ColumnDefinitions="28,*">
+
+                                    <Label
+                                        Text="✂"
+                                        FontSize="16"
+                                        TextColor="#D4AF37"/>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding Barbero, StringFormat='Barbero: {0}'}"
+                                        FontSize="14"
+                                        TextColor="#EEEEEE"
+                                        VerticalOptions="Center"/>
+
+                                </Grid>
+
+                                <Grid ColumnDefinitions="28,*">
+
+                                    <Label
+                                        Text="◆"
+                                        FontSize="15"
+                                        TextColor="#D4AF37"/>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding Servicio, StringFormat='Servicio: {0}'}"
+                                        FontSize="14"
+                                        TextColor="#EEEEEE"
+                                        VerticalOptions="Center"/>
+
+                                </Grid>
+
                             </VerticalStackLayout>
 
-                        </Grid>
+                            
+                            <Border
+                                BackgroundColor="#302A1B"
+                                Stroke="#8D712B"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 13"
+                                Padding="13">
+
+                                <Grid ColumnDefinitions="Auto,*">
+
+                                    <Label
+                                        Text="◷"
+                                        FontSize="22"
+                                        TextColor="#D4AF37"
+                                        VerticalOptions="Center"/>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding FechaHoraTexto}"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        TextColor="#E8C86A"
+                                        VerticalOptions="Center"
+                                        Margin="10,0,0,0"/>
+
+                                </Grid>
+
+                            </Border>
+
+                        </VerticalStackLayout>
 
                     </Border>
 
                 </DataTemplate>
+
             </CollectionView.ItemTemplate>
 
         </CollectionView>

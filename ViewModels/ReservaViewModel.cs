@@ -28,6 +28,17 @@ public partial class ReservaViewModel : ObservableObject
     public DateTime FechaMinima => DateTime.Today;
 
     
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(EsEdicion))]
+    [NotifyPropertyChangedFor(nameof(Titulo))]
+    [NotifyPropertyChangedFor(nameof(TextoBotonGuardar))]
+    private int? idEnEdicion;
+
+    public bool EsEdicion => IdEnEdicion.HasValue;
+    public string Titulo => EsEdicion ? "Editar reserva" : "Nueva reserva";
+    public string TextoBotonGuardar => EsEdicion ? "Guardar cambios" : "Guardar reserva";
+
+    
     [ObservableProperty] private string clienteNombre = string.Empty;
     [ObservableProperty] private string clienteTelefono = string.Empty;
     [ObservableProperty] private Barbero? barberoSeleccionado;
@@ -49,15 +60,40 @@ public partial class ReservaViewModel : ObservableObject
     partial void OnBarberoSeleccionadoChanged(Barbero? value)
     {
         ErrorBarbero = string.Empty;
-        ErrorHora = string.Empty; 
+        ErrorHora = string.Empty;
     }
     partial void OnServicioSeleccionadoChanged(Servicio? value) => ErrorServicio = string.Empty;
     partial void OnFechaChanged(DateTime value)
     {
         ErrorFecha = string.Empty;
-        ErrorHora = string.Empty; 
+        ErrorHora = string.Empty;
     }
     partial void OnHoraChanged(TimeSpan value) => ErrorHora = string.Empty;
+
+  
+    public void AlMostrarFormulario()
+    {
+        var reserva = _data.ReservaPorEditar;
+        _data.ReservaPorEditar = null; // se usa una sola vez
+
+        if (reserva is null)
+            LimpiarFormulario();
+        else
+            CargarParaEditar(reserva);
+    }
+
+    private void CargarParaEditar(Reserva reserva)
+    {
+        IdEnEdicion = reserva.Id;
+        ClienteNombre = reserva.ClienteNombre;
+        ClienteTelefono = reserva.ClienteTelefono;
+        BarberoSeleccionado = Barberos.FirstOrDefault(b => b.Nombre == reserva.Barbero);
+        ServicioSeleccionado = Servicios.FirstOrDefault(s => s.Nombre == reserva.Servicio);
+        Fecha = reserva.Fecha;
+        Hora = reserva.Hora;
+
+        LimpiarErrores();
+    }
 
     
     [RelayCommand]
@@ -70,6 +106,7 @@ public partial class ReservaViewModel : ObservableObject
 
         var reserva = new Reserva
         {
+            Id = IdEnEdicion ?? 0, 
             ClienteNombre = ClienteNombre.Trim(),
             ClienteTelefono = $"{digitos[..3]}-{digitos[3..6]}-{digitos[6..]}",
             Barbero = BarberoSeleccionado!.Nombre,
@@ -78,23 +115,98 @@ public partial class ReservaViewModel : ObservableObject
             Hora = Hora
         };
 
-        _data.AgregarReserva(reserva);
+        if (EsEdicion)
+        {
+            _data.ActualizarReserva(reserva);
 
-        await Shell.Current.DisplayAlert(
-            "¡Reserva guardada!",
-            $"La cita de {reserva.ClienteNombre} con {reserva.Barbero} quedó registrada.",
-            "OK");
+            await Shell.Current.DisplayAlert(
+                "¡Cambios guardados!",
+                $"La reserva de {reserva.ClienteNombre} se actualizó.",
+                "OK");
 
+            LimpiarFormulario();
+            await Shell.Current.GoToAsync("//ListadoReservasPage"); // vuelve a la lista para ver el cambio
+        }
+        else
+        {
+            _data.AgregarReserva(reserva);
+
+            await Shell.Current.DisplayAlert(
+                "¡Reserva guardada!",
+                $"La cita de {reserva.ClienteNombre} con {reserva.Barbero} quedó registrada.",
+                "OK");
+
+            LimpiarFormulario();
+        }
+    }
+
+    
+    [RelayCommand]
+    private async Task CancelarEdicionAsync()
+    {
         LimpiarFormulario();
+        await Shell.Current.GoToAsync("//ListadoReservasPage");
+    }
+
+    
+    [RelayCommand]
+    private async Task EditarAsync(Reserva reserva)
+    {
+        if (reserva is null)
+            return;
+
+        _data.ReservaPorEditar = reserva;
+        await Shell.Current.GoToAsync("//FormularioReservaPage");
+    }
+
+    
+    [RelayCommand]
+    private async Task EliminarDeListaAsync(Reserva reserva)
+    {
+        if (reserva is null)
+            return;
+
+        await ConfirmarYEliminarAsync(reserva);
+    }
+
+    
+    [RelayCommand]
+    private async Task EliminarActualAsync()
+    {
+        var reserva = _data.Reservas.FirstOrDefault(r => r.Id == IdEnEdicion);
+        if (reserva is null)
+            return;
+
+        if (await ConfirmarYEliminarAsync(reserva))
+        {
+            LimpiarFormulario();
+            await Shell.Current.GoToAsync("//ListadoReservasPage");
+        }
+    }
+
+    
+    private async Task<bool> ConfirmarYEliminarAsync(Reserva reserva)
+    {
+        bool confirmar = await Shell.Current.DisplayAlert(
+            "Eliminar reserva",
+            $"¿Seguro que quieres eliminar la reserva de {reserva.ClienteNombre} ({reserva.FechaHoraTexto})? Esta acción no se puede deshacer.",
+            "Sí, eliminar",
+            "Cancelar");
+
+        if (!confirmar)
+            return false;
+
+        _data.EliminarReserva(reserva);
+        return true;
     }
 
     
     private bool Validar()
     {
+        
+        LimpiarErrores();
 
-        ErrorNombre = ErrorTelefono = ErrorBarbero = ErrorServicio = ErrorFecha = ErrorHora = string.Empty;
-
-       
+        
         string nombre = ClienteNombre.Trim();
         if (nombre.Length == 0)
             ErrorNombre = "Escribe el nombre del cliente.";
@@ -132,6 +244,7 @@ public partial class ReservaViewModel : ObservableObject
         else if (Fecha.Date == DateTime.Today && Hora <= DateTime.Now.TimeOfDay)
             ErrorHora = "Esa hora ya pasó. Elige una hora posterior.";
         else if (barbero is not null && _data.Reservas.Any(r =>
+                     r.Id != IdEnEdicion && 
                      r.Barbero == barbero.Nombre &&
                      r.Fecha.Date == Fecha.Date &&
                      r.Hora == Hora))
@@ -151,8 +264,15 @@ public partial class ReservaViewModel : ObservableObject
         return new string(texto.Where(char.IsDigit).ToArray());
     }
 
+    private void LimpiarErrores()
+    {
+        ErrorNombre = ErrorTelefono = ErrorBarbero = ErrorServicio = ErrorFecha = ErrorHora = string.Empty;
+    }
+
+    
     private void LimpiarFormulario()
     {
+        IdEnEdicion = null;
         ClienteNombre = string.Empty;
         ClienteTelefono = string.Empty;
         BarberoSeleccionado = null;
@@ -160,6 +280,6 @@ public partial class ReservaViewModel : ObservableObject
         Fecha = DateTime.Today;
         Hora = new TimeSpan(9, 0, 0);
 
-        ErrorNombre = ErrorTelefono = ErrorBarbero = ErrorServicio = ErrorFecha = ErrorHora = string.Empty;
+        LimpiarErrores();
     }
 }
