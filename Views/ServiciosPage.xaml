@@ -3,16 +3,17 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:ReservasBarberia.Models"
+    xmlns:vm="clr-namespace:ReservasBarberia.ViewModels"
     x:Class="ReservasBarberia.Views.ServiciosPage"
     Title="Servicios"
     BackgroundColor="#101010">
 
-    <ScrollView>
+    <ScrollView x:Name="Desplazador">
         <VerticalStackLayout
             Padding="22,28,22,30"
             Spacing="20">
 
-            
+
             <VerticalStackLayout Spacing="7">
 
                 <Label
@@ -43,7 +44,7 @@
 
             </VerticalStackLayout>
 
-            
+
             <Border
                 BackgroundColor="#1C1C1C"
                 Stroke="#383838"
@@ -54,7 +55,8 @@
                 <VerticalStackLayout Spacing="17">
 
                     <Label
-                        Text="REGISTRAR NUEVO SERVICIO"
+                        Text="{Binding Titulo}"
+                        TextTransform="Uppercase"
                         FontSize="13"
                         CharacterSpacing="1.5"
                         FontAttributes="Bold"
@@ -64,7 +66,7 @@
                         Color="#383838"
                         HeightRequest="1"/>
 
-                    
+
                     <VerticalStackLayout Spacing="7">
 
                         <Label
@@ -100,7 +102,7 @@
 
                     </VerticalStackLayout>
 
-                    
+
                     <VerticalStackLayout Spacing="7">
 
                         <Label
@@ -137,7 +139,7 @@
 
                     </VerticalStackLayout>
 
-                    
+
                     <VerticalStackLayout Spacing="7">
 
                         <Label
@@ -174,9 +176,10 @@
 
                     </VerticalStackLayout>
 
-                    
+
                     <Button
-                        Text="＋   GUARDAR SERVICIO"
+                        Text="{Binding TextoBotonGuardar, StringFormat='＋   {0}'}"
+                        TextTransform="Uppercase"
                         BackgroundColor="#D4AF37"
                         TextColor="#101010"
                         FontAttributes="Bold"
@@ -186,11 +189,39 @@
                         Margin="0,8,0,0"
                         Command="{Binding GuardarCommand}"/>
 
+                    
+                    <VerticalStackLayout Spacing="12" IsVisible="{Binding EsEdicion}">
+
+                        <Button
+                            Text="ELIMINAR SERVICIO"
+                            BackgroundColor="Transparent"
+                            TextColor="#FF6B6B"
+                            BorderColor="#FF6B6B"
+                            BorderWidth="1"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            CornerRadius="14"
+                            HeightRequest="54"
+                            Command="{Binding EliminarActualCommand}"/>
+
+                        <Button
+                            Text="CANCELAR"
+                            BackgroundColor="Transparent"
+                            TextColor="#AAAAAA"
+                            BorderColor="#444444"
+                            BorderWidth="1"
+                            FontSize="15"
+                            CornerRadius="14"
+                            HeightRequest="54"
+                            Command="{Binding CancelarEdicionCommand}"/>
+
+                    </VerticalStackLayout>
+
                 </VerticalStackLayout>
 
             </Border>
 
-            
+
             <VerticalStackLayout Spacing="7">
 
                 <Label
@@ -214,12 +245,12 @@
 
             </VerticalStackLayout>
 
-            
+
             <VerticalStackLayout
                 Spacing="14"
                 BindableLayout.ItemsSource="{Binding Servicios}">
 
-                
+
                 <BindableLayout.EmptyView>
 
                     <Border
@@ -260,7 +291,7 @@
 
                 <BindableLayout.ItemTemplate>
 
-                    <DataTemplate x:DataType="models:Servicio">
+                    <DataTemplate>
 
                         <Border
                             BackgroundColor="#1C1C1C"
@@ -269,10 +300,17 @@
                             StrokeShape="RoundRectangle 20"
                             Padding="18">
 
+                            
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ServicioViewModel}}, Path=EditarCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </Border.GestureRecognizers>
+
                             <VerticalStackLayout Spacing="15">
 
-                                
-                                <Grid ColumnDefinitions="*,Auto">
+
+                                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
 
                                     <Label
                                         Grid.Column="0"
@@ -299,18 +337,35 @@
 
                                     </Border>
 
+                                    
+                                    <Button
+                                        Grid.Column="2"
+                                        Text="Eliminar"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        Padding="12,0"
+                                        HeightRequest="34"
+                                        VerticalOptions="Center"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#FF6B6B"
+                                        BorderColor="#FF6B6B"
+                                        BorderWidth="1"
+                                        CornerRadius="10"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ServicioViewModel}}, Path=EliminarDeListaCommand}"
+                                        CommandParameter="{Binding .}"/>
+
                                 </Grid>
 
                                 <BoxView
                                     Color="#383838"
                                     HeightRequest="1"/>
 
-                                
+
                                 <Grid
                                     ColumnDefinitions="*,*"
                                     ColumnSpacing="12">
 
-                                    
+
                                     <VerticalStackLayout
                                         Grid.Column="0"
                                         Spacing="6">
@@ -330,7 +385,7 @@
 
                                     </VerticalStackLayout>
 
-                                    
+
                                     <VerticalStackLayout
                                         Grid.Column="1"
                                         Spacing="6">
@@ -362,7 +417,7 @@
 
             </VerticalStackLayout>
 
-            
+
             <Label
                 Text="✂  CALIDAD Y ESTILO EN CADA SERVICIO"
                 FontSize="10"
