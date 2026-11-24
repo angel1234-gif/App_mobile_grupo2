@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:ReservasBarberia.Models"
+    xmlns:vm="clr-namespace:ReservasBarberia.ViewModels"
+    x:Class="ReservasBarberia.Views.ServiciosPage"
+    Title="Servicios"
+    BackgroundColor="#101010">
+
+    <ScrollView x:Name="Desplazador">
+        <VerticalStackLayout
+            Padding="22,28,22,30"
+            Spacing="20">
+
+
+            <VerticalStackLayout Spacing="7">
+
+                <Label
+                    Text="CATÁLOGO DE BARBERÍA"
+                    FontSize="12"
+                    CharacterSpacing="2"
+                    FontAttributes="Bold"
+                    TextColor="#D4AF37"/>
+
+                <Label
+                    Text="Nuestros Servicios"
+                    FontFamily="Georgia"
+                    FontSize="29"
+                    FontAttributes="Bold"
+                    TextColor="#FFFFFF"/>
+
+                <Label
+                    Text="Administra los servicios, precios y duración."
+                    FontSize="14"
+                    TextColor="#AAAAAA"/>
+
+                <BoxView
+                    Color="#D4AF37"
+                    HeightRequest="2"
+                    WidthRequest="55"
+                    HorizontalOptions="Start"
+                    Margin="0,8,0,0"/>
+
+            </VerticalStackLayout>
+
+
+            <Border
+                BackgroundColor="#1C1C1C"
+                Stroke="#383838"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 22"
+                Padding="20">
+
+                <VerticalStackLayout Spacing="17">
+
+                    <Label
+                        Text="{Binding Titulo}"
+                        TextTransform="Uppercase"
+                        FontSize="13"
+                        CharacterSpacing="1.5"
+                        FontAttributes="Bold"
+                        TextColor="#D4AF37"/>
+
+                    <BoxView
+                        Color="#383838"
+                        HeightRequest="1"/>
+
+
+                    <VerticalStackLayout Spacing="7">
+
+                        <Label
+                            Text="Nombre del servicio"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="#FFFFFF"/>
+
+                        <Border
+                            BackgroundColor="#292929"
+                            Stroke="#444444"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 13"
+                            HeightRequest="55"
+                            Padding="12,0">
+
+                            <Entry
+                                Text="{Binding Nombre}"
+                                Placeholder="Ej: Corte clásico"
+                                PlaceholderColor="#888888"
+                                TextColor="#FFFFFF"
+                                FontSize="15"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"/>
+
+                        </Border>
+
+                        <Label
+                            Text="{Binding ErrorNombre}"
+                            TextColor="#FF6B6B"
+                            FontSize="12"
+                            IsVisible="{Binding ErrorNombre, Converter={StaticResource TieneTexto}}"/>
+
+                    </VerticalStackLayout>
+
+
+                    <VerticalStackLayout Spacing="7">
+
+                        <Label
+                            Text="Precio (RD$)"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="#FFFFFF"/>
+
+                        <Border
+                            BackgroundColor="#292929"
+                            Stroke="#444444"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 13"
+                            HeightRequest="55"
+                            Padding="12,0">
+
+                            <Entry
+                                Text="{Binding Precio}"
+                                Placeholder="Ej: 300"
+                                PlaceholderColor="#888888"
+                                TextColor="#FFFFFF"
+                                FontSize="15"
+                                Keyboard="Numeric"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"/>
+
+                        </Border>
+
+                        <Label
+                            Text="{Binding ErrorPrecio}"
+                            TextColor="#FF6B6B"
+                            FontSize="12"
+                            IsVisible="{Binding ErrorPrecio, Converter={StaticResource TieneTexto}}"/>
+
+                    </VerticalStackLayout>
+
+
+                    <VerticalStackLayout Spacing="7">
+
+                        <Label
+                            Text="Duración en minutos"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="#FFFFFF"/>
+
+                        <Border
+                            BackgroundColor="#292929"
+                            Stroke="#444444"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 13"
+                            HeightRequest="55"
+                            Padding="12,0">
+
+                            <Entry
+                                Text="{Binding Duracion}"
+                                Placeholder="Ej: 30"
+                                PlaceholderColor="#888888"
+                                TextColor="#FFFFFF"
+                                FontSize="15"
+                                Keyboard="Numeric"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"/>
+
+                        </Border>
+
+                        <Label
+                            Text="{Binding ErrorDuracion}"
+                            TextColor="#FF6B6B"
+                            FontSize="12"
+                            IsVisible="{Binding ErrorDuracion, Converter={StaticResource TieneTexto}}"/>
+
+                    </VerticalStackLayout>
+
+
+                    <Button
+                        Text="{Binding TextoBotonGuardar, StringFormat='＋   {0}'}"
+                        TextTransform="Uppercase"
+                        BackgroundColor="#D4AF37"
+                        TextColor="#101010"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        CornerRadius="14"
+                        HeightRequest="58"
+                        Margin="0,8,0,0"
+                        Command="{Binding GuardarCommand}"/>
+
+                    
+                    <VerticalStackLayout Spacing="12" IsVisible="{Binding EsEdicion}">
+
+                        <Button
+                            Text="ELIMINAR SERVICIO"
+                            BackgroundColor="Transparent"
+                            TextColor="#FF6B6B"
+                            BorderColor="#FF6B6B"
+                            BorderWidth="1"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            CornerRadius="14"
+                            HeightRequest="54"
+                            Command="{Binding EliminarActualCommand}"/>
+
+                        <Button
+                            Text="CANCELAR"
+                            BackgroundColor="Transparent"
+                            TextColor="#AAAAAA"
+                            BorderColor="#444444"
+                            BorderWidth="1"
+                            FontSize="15"
+                            CornerRadius="14"
+                            HeightRequest="54"
+                            Command="{Binding CancelarEdicionCommand}"/>
+
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+
+            <VerticalStackLayout Spacing="7">
+
+                <Label
+                    Text="CATÁLOGO"
+                    FontSize="12"
+                    CharacterSpacing="2"
+                    FontAttributes="Bold"
+                    TextColor="#D4AF37"/>
+
+                <Label
+                    Text="Servicios registrados"
+                    FontFamily="Georgia"
+                    FontSize="25"
+                    FontAttributes="Bold"
+                    TextColor="#FFFFFF"/>
+
+                <Label
+                    Text="Consulta los servicios disponibles en tu barbería."
+                    FontSize="13"
+                    TextColor="#AAAAAA"/>
+
+            </VerticalStackLayout>
+
+
+            <VerticalStackLayout
+                Spacing="14"
+                BindableLayout.ItemsSource="{Binding Servicios}">
+
+
+                <BindableLayout.EmptyView>
+
+                    <Border
+                        BackgroundColor="#1C1C1C"
+                        Stroke="#383838"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="22">
+
+                        <VerticalStackLayout
+                            Spacing="10"
+                            HorizontalOptions="Center">
+
+                            <Label
+                                Text="✂"
+                                FontSize="40"
+                                TextColor="#D4AF37"
+                                HorizontalTextAlignment="Center"/>
+
+                            <Label
+                                Text="No hay servicios registrados"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#FFFFFF"
+                                HorizontalTextAlignment="Center"/>
+
+                            <Label
+                                Text="Agrega tu primer servicio utilizando el formulario."
+                                FontSize="13"
+                                TextColor="#AAAAAA"
+                                HorizontalTextAlignment="Center"/>
+
+                        </VerticalStackLayout>
+
+                    </Border>
+
+                </BindableLayout.EmptyView>
+
+                <BindableLayout.ItemTemplate>
+
+                    <DataTemplate>
+
+                        <Border
+                            BackgroundColor="#1C1C1C"
+                            Stroke="#383838"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 20"
+                            Padding="18">
+
+                            
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ServicioViewModel}}, Path=EditarCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </Border.GestureRecognizers>
+
+                            <VerticalStackLayout Spacing="15">
+
+
+                                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+
+                                    <Label
+                                        Grid.Column="0"
+                                        Text="{Binding Nombre}"
+                                        FontSize="19"
+                                        FontAttributes="Bold"
+                                        TextColor="#FFFFFF"
+                                        VerticalOptions="Center"/>
+
+                                    <Border
+                                        Grid.Column="1"
+                                        BackgroundColor="#302A1B"
+                                        Stroke="#8D712B"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 10"
+                                        Padding="10,6"
+                                        VerticalOptions="Center">
+
+                                        <Label
+                                            Text="DISPONIBLE"
+                                            FontSize="9"
+                                            FontAttributes="Bold"
+                                            TextColor="#E8C86A"/>
+
+                                    </Border>
+
+                                    
+                                    <Button
+                                        Grid.Column="2"
+                                        Text="Eliminar"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        Padding="12,0"
+                                        HeightRequest="34"
+                                        VerticalOptions="Center"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#FF6B6B"
+                                        BorderColor="#FF6B6B"
+                                        BorderWidth="1"
+                                        CornerRadius="10"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ServicioViewModel}}, Path=EliminarDeListaCommand}"
+                                        CommandParameter="{Binding .}"/>
+
+                                </Grid>
+
+                                <BoxView
+                                    Color="#383838"
+                                    HeightRequest="1"/>
+
+
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="12">
+
+
+                                    <VerticalStackLayout
+                                        Grid.Column="0"
+                                        Spacing="6">
+
+                                        <Label
+                                            Text="PRECIO"
+                                            FontSize="11"
+                                            CharacterSpacing="1"
+                                            FontAttributes="Bold"
+                                            TextColor="#AAAAAA"/>
+
+                                        <Label
+                                            Text="{Binding Precio, StringFormat='RD$ {0:N2}'}"
+                                            FontSize="20"
+                                            FontAttributes="Bold"
+                                            TextColor="#D4AF37"/>
+
+                                    </VerticalStackLayout>
+
+
+                                    <VerticalStackLayout
+                                        Grid.Column="1"
+                                        Spacing="6">
+
+                                        <Label
+                                            Text="DURACIÓN"
+                                            FontSize="11"
+                                            CharacterSpacing="1"
+                                            FontAttributes="Bold"
+                                            TextColor="#AAAAAA"/>
+
+                                        <Label
+                                            Text="{Binding DuracionMinutos, StringFormat='{0} minutos'}"
+                                            FontSize="18"
+                                            FontAttributes="Bold"
+                                            TextColor="#FFFFFF"/>
+
+                                    </VerticalStackLayout>
+
+                                </Grid>
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                    </DataTemplate>
+
+                </BindableLayout.ItemTemplate>
+
+            </VerticalStackLayout>
+
+
+            <Label
+                Text="✂  CALIDAD Y ESTILO EN CADA SERVICIO"
+                FontSize="10"
+                CharacterSpacing="1.5"
+                TextColor="#777777"
+                HorizontalTextAlignment="Center"
+                Margin="0,8,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
