@@ -16,6 +16,8 @@ public partial class ReservaViewModel : ObservableObject
     public ReservaViewModel(DataService data)
     {
         _data = data;
+        _data.Reservas.CollectionChanged += (_, _) => AplicarFiltros();
+        _data.Barberos.CollectionChanged += (_, _) => ActualizarOpcionesBarbero();
     }
 
     public ObservableCollection<Barbero> Barberos => _data.Barberos;
@@ -24,6 +26,81 @@ public partial class ReservaViewModel : ObservableObject
 
     public DateTime FechaMinima => DateTime.Today;
 
+    
+    private const string TodosLosBarberos = "Todos los barberos";
+
+    public ObservableCollection<Reserva> ReservasFiltradas { get; } = new();
+    public ObservableCollection<string> OpcionesBarbero { get; } = new();
+    public List<string> OpcionesPeriodo { get; } = new() { "Todas", "Hoy", "Próximas", "Pasadas" };
+
+    [ObservableProperty] private string textoBusqueda = string.Empty;
+    [ObservableProperty] private string? filtroBarbero = TodosLosBarberos;
+    [ObservableProperty] private string filtroPeriodo = "Todas";
+    [ObservableProperty] private string resumen = string.Empty;
+
+    partial void OnTextoBusquedaChanged(string value) => AplicarFiltros();
+    partial void OnFiltroBarberoChanged(string? value) => AplicarFiltros();
+    partial void OnFiltroPeriodoChanged(string value) => AplicarFiltros();
+
+    private void AplicarFiltros()
+    {
+        string texto = TextoBusqueda.Trim();
+        string digitosBuscados = SoloDigitos(texto);
+        string barbero = FiltroBarbero ?? TodosLosBarberos;
+        DateTime hoy = DateTime.Today;
+
+        var resultado = _data.Reservas.Where(r =>
+        {
+            bool coincideTexto =
+                texto.Length == 0
+                || r.ClienteNombre.Contains(texto, StringComparison.OrdinalIgnoreCase)
+                || (digitosBuscados.Length > 0
+                    && SoloDigitos(r.ClienteTelefono).Contains(digitosBuscados));
+
+            bool coincideBarbero =
+                barbero == TodosLosBarberos || r.Barbero == barbero;
+
+            bool coincidePeriodo = FiltroPeriodo switch
+            {
+                "Hoy" => r.Fecha.Date == hoy,
+                "Próximas" => r.Fecha.Date > hoy,
+                "Pasadas" => r.Fecha.Date < hoy,
+                _ => true
+            };
+
+            return coincideTexto && coincideBarbero && coincidePeriodo;
+        }).ToList();
+
+        ReservasFiltradas.Clear();
+        foreach (var reserva in resultado)
+            ReservasFiltradas.Add(reserva);
+
+        Resumen = $"{resultado.Count} de {_data.Reservas.Count} reservas";
+    }
+
+    private void ActualizarOpcionesBarbero()
+    {
+        string? seleccionado = FiltroBarbero;
+
+        OpcionesBarbero.Clear();
+        OpcionesBarbero.Add(TodosLosBarberos);
+        foreach (var b in _data.Barberos)
+            OpcionesBarbero.Add(b.Nombre);
+
+        FiltroBarbero = seleccionado is not null && OpcionesBarbero.Contains(seleccionado)
+            ? seleccionado
+            : TodosLosBarberos;
+    }
+
+    [RelayCommand]
+    private void LimpiarFiltros()
+    {
+        TextoBusqueda = string.Empty;
+        FiltroBarbero = TodosLosBarberos;
+        FiltroPeriodo = "Todas";
+    }
+
+    
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(EsEdicion))]
     [NotifyPropertyChangedFor(nameof(Titulo))]
@@ -64,15 +141,20 @@ public partial class ReservaViewModel : ObservableObject
     partial void OnHoraChanged(TimeSpan value) => ErrorHora = string.Empty;
 
     
-    public Task InicializarAsync() => _data.InicializarAsync();
+    public async Task InicializarAsync()
+    {
+        await _data.InicializarAsync();
+        ActualizarOpcionesBarbero();
+        AplicarFiltros();
+    }
 
-    
+    // Se llama desde OnAppearing del formulario
     public async Task AlMostrarFormularioAsync()
     {
         await _data.InicializarAsync();
 
         var reserva = _data.ReservaPorEditar;
-        _data.ReservaPorEditar = null; 
+        _data.ReservaPorEditar = null; // se usa una sola vez
 
         if (reserva is null)
             LimpiarFormulario();
@@ -124,7 +206,7 @@ public partial class ReservaViewModel : ObservableObject
                     "OK");
 
                 LimpiarFormulario();
-                await Shell.Current.GoToAsync("//ListadoReservasPage");
+                await Shell.Current.GoToAsync("//ListadoReservasPage"); // vuelve a la lista para ver el cambio
             }
             else
             {
