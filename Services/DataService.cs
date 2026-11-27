@@ -141,6 +141,18 @@ public class DataService
             coleccion[coleccion.IndexOf(actual)] = nuevo;
     }
 
+    private void OrdenarReservas()
+    {
+        var ordenadas = Reservas.OrderBy(r => r.Fecha).ThenBy(r => r.Hora).ToList();
+
+        for (int i = 0; i < ordenadas.Count; i++)
+        {
+            int actual = Reservas.IndexOf(ordenadas[i]);
+            if (actual != i)
+                Reservas.Move(actual, i);
+        }
+    }
+
     private static async Task EjecutarAsync(Func<Task> operacion)
     {
         try
@@ -189,7 +201,9 @@ public class DataService
     {
         await EjecutarAsync(() => Db.InsertAsync(reserva));
         Reservas.Add(reserva);
+        OrdenarReservas();
     }
+
     public async Task ActualizarBarberoAsync(Barbero editado)
     {
         await EjecutarAsync(() => Db.UpdateAsync(editado));
@@ -223,11 +237,8 @@ public class DataService
     public async Task ActualizarReservaAsync(Reserva editada)
     {
         await EjecutarAsync(() => Db.UpdateAsync(editada));
-
-        Sustituir(
-            Reservas,
-            r => r.Id == editada.Id,
-            editada);
+        Sustituir(Reservas, r => r.Id == editada.Id, editada);
+        OrdenarReservas();
     }
 
     public async Task EliminarBarberoAsync(Barbero barbero)
