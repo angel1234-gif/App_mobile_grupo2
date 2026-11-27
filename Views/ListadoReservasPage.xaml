@@ -307,6 +307,27 @@
 
                             </Border>
 
+                            
+                            <Label
+                                IsVisible="{Binding Confirmada}"
+                                Text="✔ Cita confirmada por WhatsApp"
+                                FontSize="13"
+                                FontAttributes="Bold"
+                                TextColor="#4CD964"/>
+
+                            <Button
+                                Text="Confirmar por WhatsApp"
+                                FontSize="13"
+                                FontAttributes="Bold"
+                                HeightRequest="40"
+                                BackgroundColor="Transparent"
+                                TextColor="#25D366"
+                                BorderColor="#25D366"
+                                BorderWidth="1"
+                                CornerRadius="12"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReservaViewModel}}, Path=ConfirmarPorWhatsAppCommand}"
+                                CommandParameter="{Binding .}"/>
+
                         </VerticalStackLayout>
 
                     </Border>
