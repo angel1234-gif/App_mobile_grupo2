@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.ApplicationModel.DataTransfer;
 using ReservasBarberia.Models;
 using ReservasBarberia.Services;
 
@@ -26,7 +28,7 @@ public partial class ReservaViewModel : ObservableObject
 
     public DateTime FechaMinima => DateTime.Today;
 
-    
+    // ===== Innovación 1: búsqueda y filtros del listado =====
     private const string TodosLosBarberos = "Todos los barberos";
 
     public ObservableCollection<Reserva> ReservasFiltradas { get; } = new();
@@ -100,7 +102,7 @@ public partial class ReservaViewModel : ObservableObject
         FiltroPeriodo = "Todas";
     }
 
-    
+    // ===== Formulario de reserva =====
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(EsEdicion))]
     [NotifyPropertyChangedFor(nameof(Titulo))]
@@ -140,7 +142,7 @@ public partial class ReservaViewModel : ObservableObject
     }
     partial void OnHoraChanged(TimeSpan value) => ErrorHora = string.Empty;
 
-    
+    // Inicialización lazy de la BD (se llama desde OnAppearing del listado)
     public async Task InicializarAsync()
     {
         await _data.InicializarAsync();
@@ -242,6 +244,61 @@ public partial class ReservaViewModel : ObservableObject
 
         _data.ReservaPorEditar = reserva;
         await Shell.Current.GoToAsync("//FormularioReservaPage");
+    }
+
+    
+    [RelayCommand]
+    private async Task ConfirmarPorWhatsAppAsync(Reserva reserva)
+    {
+        if (reserva is null)
+            return;
+
+        
+        string numero = "1" + SoloDigitos(reserva.ClienteTelefono);
+
+        string hora = DateTime.Today.Add(reserva.Hora).ToString("hh:mm tt");
+
+        string mensaje =
+            $"Hola {reserva.ClienteNombre}, te confirmamos tu cita en la barbería:\n" +
+            $"Servicio: {reserva.Servicio}\n" +
+            $"Barbero: {reserva.Barbero}\n" +
+            $"Fecha: {reserva.Fecha:dd/MM/yyyy}\n" +
+            $"Hora: {hora}\n" +
+            "¡Te esperamos!";
+
+        string url = $"https://wa.me/{numero}?text={Uri.EscapeDataString(mensaje)}";
+
+        try
+        {
+            await Launcher.Default.OpenAsync(new Uri(url));
+        }
+        catch
+        {
+            
+            await Clipboard.Default.SetTextAsync(mensaje);
+
+            await Shell.Current.DisplayAlert(
+                "No se pudo abrir WhatsApp",
+                "El mensaje se copió al portapapeles para que lo pegues en el chat.",
+                "OK");
+
+            return;
+        }
+
+        
+        var confirmada = new Reserva
+        {
+            Id = reserva.Id,
+            ClienteNombre = reserva.ClienteNombre,
+            ClienteTelefono = reserva.ClienteTelefono,
+            Barbero = reserva.Barbero,
+            Servicio = reserva.Servicio,
+            Fecha = reserva.Fecha,
+            Hora = reserva.Hora,
+            Confirmada = true
+        };
+
+        await _data.ActualizarReservaAsync(confirmada);
     }
 
     [RelayCommand]
