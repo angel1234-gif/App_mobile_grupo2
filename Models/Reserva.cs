@@ -16,5 +16,6 @@ public class Reserva
     [Unique(Name = "ux_reserva_horario", Order = 3)]
     public TimeSpan Hora { get; set; }
     [Ignore]
+    public bool Confirmada { get; set; }
     public string FechaHoraTexto => $"{Fecha:dd/MM/yyyy} - {Hora:hh\\:mm}";
 }
