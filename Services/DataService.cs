@@ -284,4 +284,41 @@ public class DataService
         if (actual is not null)
             Reservas.Remove(actual);
     }
+
+    
+
+    public async Task<int> ContarReservasAsync()
+    {
+        return await Db.Table<Reserva>().CountAsync();
+    }
+
+    public async Task<int> ContarReservasDeHoyAsync()
+    {
+        DateTime hoy = DateTime.Today;
+        return await Db.Table<Reserva>().Where(r => r.Fecha == hoy).CountAsync();
+    }
+
+    
+    public async Task<decimal> IngresoEstimadoAsync()
+    {
+        double total = await Db.ExecuteScalarAsync<double>(
+            "SELECT IFNULL(SUM(s.Precio), 0) " +
+            "FROM Reservas r INNER JOIN Servicios s ON s.Nombre = r.Servicio");
+
+        return (decimal)total;
+    }
+
+    public Task<List<ConteoItem>> ServiciosMasPedidosAsync()
+    {
+        return Db.QueryAsync<ConteoItem>(
+            "SELECT Servicio AS Nombre, COUNT(*) AS Total " +
+            "FROM Reservas GROUP BY Servicio ORDER BY Total DESC");
+    }
+
+    public Task<List<ConteoItem>> ReservasPorBarberoAsync()
+    {
+        return Db.QueryAsync<ConteoItem>(
+            "SELECT Barbero AS Nombre, COUNT(*) AS Total " +
+            "FROM Reservas GROUP BY Barbero ORDER BY Total DESC");
+    }
 }
