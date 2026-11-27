@@ -39,6 +39,10 @@
         Title="Clientes"
         ContentTemplate="{DataTemplate views:ClientesPage}"
         Route="ClientesPage" />
+    <ShellContent
+        Title="Estadísticas"
+        ContentTemplate="{DataTemplate views:EstadisticasPage}"
+        Route="EstadisticasPage" />
 
     <MenuItem Text="Cerrar sesión" Command="{Binding CerrarSesionCommand}" />
 
