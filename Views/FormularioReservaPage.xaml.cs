@@ -13,10 +13,9 @@ public partial class FormularioReservaPage : ContentPage
         BindingContext = viewModel;
     }
 
-
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        _viewModel.AlMostrarFormulario();
+        await _viewModel.AlMostrarFormularioAsync();
     }
 }

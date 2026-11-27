@@ -12,14 +12,12 @@ public partial class ServiciosPage : ContentPage
         _viewModel = viewModel;
         BindingContext = viewModel;
 
-        
         _viewModel.IrAlFormulario += async () => await Desplazador.ScrollToAsync(0, 0, true);
     }
 
-    
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        _viewModel.AlMostrarPantalla();
+        await _viewModel.AlMostrarPantallaAsync();
     }
 }
