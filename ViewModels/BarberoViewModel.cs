@@ -16,14 +16,10 @@ public partial class BarberoViewModel : ObservableObject
         _data = data;
     }
 
-    
     public ObservableCollection<Barbero> Barberos => _data.Barberos;
 
-    
     public event Action? IrAlFormulario;
 
-    
-    
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(EsEdicion))]
     [NotifyPropertyChangedFor(nameof(Titulo))]
@@ -34,25 +30,25 @@ public partial class BarberoViewModel : ObservableObject
     public string Titulo => EsEdicion ? "Editar barbero" : "Nuevo barbero";
     public string TextoBotonGuardar => EsEdicion ? "Guardar cambios" : "Guardar barbero";
 
-    
     [ObservableProperty] private string nombre = string.Empty;
     [ObservableProperty] private string especialidad = string.Empty;
     [ObservableProperty] private string telefono = string.Empty;
 
-    
     [ObservableProperty] private string errorNombre = string.Empty;
     [ObservableProperty] private string errorEspecialidad = string.Empty;
     [ObservableProperty] private string errorTelefono = string.Empty;
 
-    
     partial void OnNombreChanged(string value) => ErrorNombre = string.Empty;
     partial void OnEspecialidadChanged(string value) => ErrorEspecialidad = string.Empty;
     partial void OnTelefonoChanged(string value) => ErrorTelefono = string.Empty;
 
-    
-    public void AlMostrarPantalla() => LimpiarFormulario();
+    // Inicialización lazy de la BD + limpiar formulario (se llama desde OnAppearing)
+    public async Task AlMostrarPantallaAsync()
+    {
+        await _data.InicializarAsync();
+        LimpiarFormulario();
+    }
 
-    
     [RelayCommand]
     private void Editar(Barbero barbero)
     {
@@ -68,7 +64,6 @@ public partial class BarberoViewModel : ObservableObject
         IrAlFormulario?.Invoke();
     }
 
-    
     [RelayCommand]
     private async Task GuardarAsync()
     {
@@ -77,39 +72,45 @@ public partial class BarberoViewModel : ObservableObject
 
         var barbero = new Barbero
         {
-            Id = IdEnEdicion ?? 0, 
+            Id = IdEnEdicion ?? 0,
             Nombre = Nombre.Trim(),
             Especialidad = Especialidad.Trim(),
             Telefono = Validaciones.FormatearTelefono(Telefono)
         };
 
-        if (EsEdicion)
+        try
         {
-            _data.ActualizarBarbero(barbero);
+            if (EsEdicion)
+            {
+                await _data.ActualizarBarberoAsync(barbero);
 
-            await Shell.Current.DisplayAlert(
-                "¡Cambios guardados!",
-                $"Los datos de {barbero.Nombre} se actualizaron.",
-                "OK");
+                await Shell.Current.DisplayAlert(
+                    "¡Cambios guardados!",
+                    $"Los datos de {barbero.Nombre} se actualizaron.",
+                    "OK");
+            }
+            else
+            {
+                await _data.AgregarBarberoAsync(barbero);
+
+                await Shell.Current.DisplayAlert(
+                    "¡Barbero guardado!",
+                    $"{barbero.Nombre} ya forma parte del equipo.",
+                    "OK");
+            }
+
+            LimpiarFormulario();
         }
-        else
+        catch (RegistroDuplicadoException)
         {
-            _data.AgregarBarbero(barbero);
-
-            await Shell.Current.DisplayAlert(
-                "¡Barbero guardado!",
-                $"{barbero.Nombre} ya forma parte del equipo.",
-                "OK");
+            // La BD rechazó el valor repetido en el campo único (Nombre)
+            ErrorNombre = "Ya existe un barbero con ese nombre.";
         }
-
-        LimpiarFormulario();
     }
 
-    
     [RelayCommand]
     private void CancelarEdicion() => LimpiarFormulario();
 
-    
     [RelayCommand]
     private async Task EliminarDeListaAsync(Barbero barbero)
     {
@@ -120,7 +121,6 @@ public partial class BarberoViewModel : ObservableObject
             LimpiarFormulario(); // si justo se estaba editando, se sale del modo edición
     }
 
-    
     [RelayCommand]
     private async Task EliminarActualAsync()
     {
@@ -132,7 +132,6 @@ public partial class BarberoViewModel : ObservableObject
             LimpiarFormulario();
     }
 
-    
     private async Task<bool> ConfirmarYEliminarAsync(Barbero barbero)
     {
         bool confirmar = await Shell.Current.DisplayAlert(
@@ -144,32 +143,23 @@ public partial class BarberoViewModel : ObservableObject
         if (!confirmar)
             return false;
 
-        _data.EliminarBarbero(barbero);
+        await _data.EliminarBarberoAsync(barbero);
         return true;
     }
 
-    
     private bool Validar()
     {
         LimpiarErrores();
 
-        
+        // El nombre duplicado ya no se revisa aquí: lo detecta la BD (campo [Unique])
         ErrorNombre = Validaciones.Nombre(Nombre, "del barbero");
-        if (string.IsNullOrEmpty(ErrorNombre) &&
-            _data.Barberos.Any(b => b.Id != IdEnEdicion &&
-                                    b.Nombre.Equals(Nombre.Trim(), StringComparison.OrdinalIgnoreCase)))
-        {
-            ErrorNombre = "Ya existe un barbero con ese nombre.";
-        }
 
-        
         string especialidadLimpia = Especialidad.Trim();
         if (especialidadLimpia.Length == 0)
             ErrorEspecialidad = "Escribe la especialidad del barbero.";
         else if (especialidadLimpia.Length < 4)
             ErrorEspecialidad = "La especialidad debe tener al menos 4 letras, por ejemplo: Fade y diseño.";
 
-        
         ErrorTelefono = Validaciones.Telefono(Telefono, "del barbero");
 
         return string.IsNullOrEmpty(ErrorNombre)
@@ -182,7 +172,6 @@ public partial class BarberoViewModel : ObservableObject
         ErrorNombre = ErrorEspecialidad = ErrorTelefono = string.Empty;
     }
 
-    
     private void LimpiarFormulario()
     {
         IdEnEdicion = null;

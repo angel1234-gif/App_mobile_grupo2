@@ -17,14 +17,10 @@ public partial class ClienteViewModel : ObservableObject
         _data = data;
     }
 
-    
     public ObservableCollection<Cliente> Clientes => _data.Clientes;
 
-   
     public event Action? IrAlFormulario;
 
-    
-    
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(EsEdicion))]
     [NotifyPropertyChangedFor(nameof(Titulo))]
@@ -35,25 +31,25 @@ public partial class ClienteViewModel : ObservableObject
     public string Titulo => EsEdicion ? "Editar cliente" : "Nuevo cliente";
     public string TextoBotonGuardar => EsEdicion ? "Guardar cambios" : "Guardar cliente";
 
-    
     [ObservableProperty] private string nombre = string.Empty;
     [ObservableProperty] private string telefono = string.Empty;
     [ObservableProperty] private string correo = string.Empty;
 
-    
     [ObservableProperty] private string errorNombre = string.Empty;
     [ObservableProperty] private string errorTelefono = string.Empty;
     [ObservableProperty] private string errorCorreo = string.Empty;
 
-    
     partial void OnNombreChanged(string value) => ErrorNombre = string.Empty;
     partial void OnTelefonoChanged(string value) => ErrorTelefono = string.Empty;
     partial void OnCorreoChanged(string value) => ErrorCorreo = string.Empty;
 
     
-    public void AlMostrarPantalla() => LimpiarFormulario();
+    public async Task AlMostrarPantallaAsync()
+    {
+        await _data.InicializarAsync();
+        LimpiarFormulario();
+    }
 
-    
     [RelayCommand]
     private void Editar(Cliente cliente)
     {
@@ -69,7 +65,6 @@ public partial class ClienteViewModel : ObservableObject
         IrAlFormulario?.Invoke();
     }
 
-    
     [RelayCommand]
     private async Task GuardarAsync()
     {
@@ -78,39 +73,50 @@ public partial class ClienteViewModel : ObservableObject
 
         var cliente = new Cliente
         {
-            Id = IdEnEdicion ?? 0, 
+            Id = IdEnEdicion ?? 0,
             Nombre = Nombre.Trim(),
             Telefono = Validaciones.FormatearTelefono(Telefono),
             Correo = Correo.Trim().ToLower()
         };
 
-        if (EsEdicion)
+        try
         {
-            _data.ActualizarCliente(cliente);
+            if (EsEdicion)
+            {
+                await _data.ActualizarClienteAsync(cliente);
 
-            await Shell.Current.DisplayAlert(
-                "¡Cambios guardados!",
-                $"Los datos de {cliente.Nombre} se actualizaron.",
-                "OK");
+                await Shell.Current.DisplayAlert(
+                    "¡Cambios guardados!",
+                    $"Los datos de {cliente.Nombre} se actualizaron.",
+                    "OK");
+            }
+            else
+            {
+                await _data.AgregarClienteAsync(cliente);
+
+                await Shell.Current.DisplayAlert(
+                    "¡Cliente guardado!",
+                    $"{cliente.Nombre} quedó registrado.",
+                    "OK");
+            }
+
+            LimpiarFormulario();
         }
-        else
+        catch (RegistroDuplicadoException ex)
         {
-            _data.AgregarCliente(cliente);
-
-            await Shell.Current.DisplayAlert(
-                "¡Cliente guardado!",
-                $"{cliente.Nombre} quedó registrado.",
-                "OK");
+            
+            if (ex.Campo == nameof(Cliente.Telefono))
+                ErrorTelefono = "Ya hay un cliente registrado con ese teléfono.";
+            else if (ex.Campo == nameof(Cliente.Correo))
+                ErrorCorreo = "Ya hay un cliente registrado con ese correo.";
+            else
+                ErrorNombre = "Ya existe un cliente con esos datos.";
         }
-
-        LimpiarFormulario();
     }
 
-    
     [RelayCommand]
     private void CancelarEdicion() => LimpiarFormulario();
 
-    
     [RelayCommand]
     private async Task EliminarDeListaAsync(Cliente cliente)
     {
@@ -121,7 +127,6 @@ public partial class ClienteViewModel : ObservableObject
             LimpiarFormulario(); // si justo se estaba editando, se sale del modo edición
     }
 
-    
     [RelayCommand]
     private async Task EliminarActualAsync()
     {
@@ -133,7 +138,6 @@ public partial class ClienteViewModel : ObservableObject
             LimpiarFormulario();
     }
 
-    
     private async Task<bool> ConfirmarYEliminarAsync(Cliente cliente)
     {
         bool confirmar = await Shell.Current.DisplayAlert(
@@ -145,36 +149,18 @@ public partial class ClienteViewModel : ObservableObject
         if (!confirmar)
             return false;
 
-        _data.EliminarCliente(cliente);
+        await _data.EliminarClienteAsync(cliente);
         return true;
     }
 
-    
     private bool Validar()
     {
         LimpiarErrores();
 
         
         ErrorNombre = Validaciones.Nombre(Nombre, "del cliente");
-
-        
         ErrorTelefono = Validaciones.Telefono(Telefono, "del cliente");
-        if (string.IsNullOrEmpty(ErrorTelefono))
-        {
-            string digitos = Validaciones.SoloDigitos(Telefono);
-            if (_data.Clientes.Any(c => c.Id != IdEnEdicion &&
-                                        Validaciones.SoloDigitos(c.Telefono) == digitos))
-                ErrorTelefono = "Ya hay un cliente registrado con ese teléfono.";
-        }
-
-        
         ErrorCorreo = ValidarCorreo(Correo);
-        if (string.IsNullOrEmpty(ErrorCorreo) &&
-            _data.Clientes.Any(c => c.Id != IdEnEdicion &&
-                                    c.Correo.Equals(Correo.Trim(), StringComparison.OrdinalIgnoreCase)))
-        {
-            ErrorCorreo = "Ya hay un cliente registrado con ese correo.";
-        }
 
         return string.IsNullOrEmpty(ErrorNombre)
             && string.IsNullOrEmpty(ErrorTelefono)
@@ -191,7 +177,6 @@ public partial class ClienteViewModel : ObservableObject
         if (correo.Contains(' '))
             return "El correo no puede tener espacios.";
 
-        
         bool formatoValido = MailAddress.TryCreate(correo, out var direccion)
                              && direccion.Address == correo
                              && direccion.Host.Contains('.');
@@ -207,7 +192,6 @@ public partial class ClienteViewModel : ObservableObject
         ErrorNombre = ErrorTelefono = ErrorCorreo = string.Empty;
     }
 
-    
     private void LimpiarFormulario()
     {
         IdEnEdicion = null;
@@ -218,4 +202,3 @@ public partial class ClienteViewModel : ObservableObject
         LimpiarErrores();
     }
 }
-

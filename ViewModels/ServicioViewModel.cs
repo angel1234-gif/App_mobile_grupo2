@@ -9,7 +9,6 @@ namespace ReservasBarberia.ViewModels;
 
 public partial class ServicioViewModel : ObservableObject
 {
-    
     private const decimal PrecioMaximo = 10000;
     private const int DuracionMinima = 10;
     private const int DuracionMaxima = 180;
@@ -21,13 +20,10 @@ public partial class ServicioViewModel : ObservableObject
         _data = data;
     }
 
-    
     public ObservableCollection<Servicio> Servicios => _data.Servicios;
 
- 
     public event Action? IrAlFormulario;
 
-   
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(EsEdicion))]
     [NotifyPropertyChangedFor(nameof(Titulo))]
@@ -38,25 +34,25 @@ public partial class ServicioViewModel : ObservableObject
     public string Titulo => EsEdicion ? "Editar servicio" : "Nuevo servicio";
     public string TextoBotonGuardar => EsEdicion ? "Guardar cambios" : "Guardar servicio";
 
-    
     [ObservableProperty] private string nombre = string.Empty;
     [ObservableProperty] private string precio = string.Empty;
     [ObservableProperty] private string duracion = string.Empty;
 
-    
     [ObservableProperty] private string errorNombre = string.Empty;
     [ObservableProperty] private string errorPrecio = string.Empty;
     [ObservableProperty] private string errorDuracion = string.Empty;
 
-    
     partial void OnNombreChanged(string value) => ErrorNombre = string.Empty;
     partial void OnPrecioChanged(string value) => ErrorPrecio = string.Empty;
     partial void OnDuracionChanged(string value) => ErrorDuracion = string.Empty;
 
     
-    public void AlMostrarPantalla() => LimpiarFormulario();
+    public async Task AlMostrarPantallaAsync()
+    {
+        await _data.InicializarAsync();
+        LimpiarFormulario();
+    }
 
-    
     [RelayCommand]
     private void Editar(Servicio servicio)
     {
@@ -72,7 +68,6 @@ public partial class ServicioViewModel : ObservableObject
         IrAlFormulario?.Invoke();
     }
 
-    
     [RelayCommand]
     private async Task GuardarAsync()
     {
@@ -81,39 +76,45 @@ public partial class ServicioViewModel : ObservableObject
 
         var servicio = new Servicio
         {
-            Id = IdEnEdicion ?? 0, 
+            Id = IdEnEdicion ?? 0,
             Nombre = Nombre.Trim(),
             Precio = precioValor,
             DuracionMinutos = duracionValor
         };
 
-        if (EsEdicion)
+        try
         {
-            _data.ActualizarServicio(servicio);
+            if (EsEdicion)
+            {
+                await _data.ActualizarServicioAsync(servicio);
 
-            await Shell.Current.DisplayAlert(
-                "¡Cambios guardados!",
-                $"El servicio {servicio.Nombre} se actualizó.",
-                "OK");
+                await Shell.Current.DisplayAlert(
+                    "¡Cambios guardados!",
+                    $"El servicio {servicio.Nombre} se actualizó.",
+                    "OK");
+            }
+            else
+            {
+                await _data.AgregarServicioAsync(servicio);
+
+                await Shell.Current.DisplayAlert(
+                    "¡Servicio guardado!",
+                    $"{servicio.Nombre}: RD${servicio.Precio:N2} · {servicio.DuracionMinutos} min.",
+                    "OK");
+            }
+
+            LimpiarFormulario();
         }
-        else
+        catch (RegistroDuplicadoException)
         {
-            _data.AgregarServicio(servicio);
-
-            await Shell.Current.DisplayAlert(
-                "¡Servicio guardado!",
-                $"{servicio.Nombre}: RD${servicio.Precio:N2} · {servicio.DuracionMinutos} min.",
-                "OK");
+            // La BD rechazó el valor repetido en el campo único (Nombre)
+            ErrorNombre = "Ya existe un servicio con ese nombre.";
         }
-
-        LimpiarFormulario();
     }
 
-    
     [RelayCommand]
     private void CancelarEdicion() => LimpiarFormulario();
 
-    
     [RelayCommand]
     private async Task EliminarDeListaAsync(Servicio servicio)
     {
@@ -121,10 +122,9 @@ public partial class ServicioViewModel : ObservableObject
             return;
 
         if (await ConfirmarYEliminarAsync(servicio) && IdEnEdicion == servicio.Id)
-            LimpiarFormulario(); 
+            LimpiarFormulario();
     }
 
-    
     [RelayCommand]
     private async Task EliminarActualAsync()
     {
@@ -136,7 +136,6 @@ public partial class ServicioViewModel : ObservableObject
             LimpiarFormulario();
     }
 
-    
     private async Task<bool> ConfirmarYEliminarAsync(Servicio servicio)
     {
         bool confirmar = await Shell.Current.DisplayAlert(
@@ -148,10 +147,9 @@ public partial class ServicioViewModel : ObservableObject
         if (!confirmar)
             return false;
 
-        _data.EliminarServicio(servicio);
+        await _data.EliminarServicioAsync(servicio);
         return true;
     }
-
 
     private bool Validar(out decimal precioValor, out int duracionValor)
     {
@@ -165,11 +163,7 @@ public partial class ServicioViewModel : ObservableObject
             ErrorNombre = "Escribe el nombre del servicio.";
         else if (nombreLimpio.Length < 3)
             ErrorNombre = "El nombre debe tener al menos 3 letras.";
-        else if (_data.Servicios.Any(s => s.Id != IdEnEdicion &&
-                                          s.Nombre.Equals(nombreLimpio, StringComparison.OrdinalIgnoreCase)))
-            ErrorNombre = "Ya existe un servicio con ese nombre.";
 
-        
         string precioTexto = Precio.Trim();
         if (precioTexto.Length == 0)
             ErrorPrecio = "Escribe el precio del servicio.";
@@ -180,7 +174,6 @@ public partial class ServicioViewModel : ObservableObject
         else if (precioValor > PrecioMaximo)
             ErrorPrecio = $"El precio no puede superar RD${PrecioMaximo:N0}.";
 
-        
         string duracionTexto = Duracion.Trim();
         if (duracionTexto.Length == 0)
             ErrorDuracion = "Escribe la duración en minutos.";
@@ -198,9 +191,6 @@ public partial class ServicioViewModel : ObservableObject
     {
         ErrorNombre = ErrorPrecio = ErrorDuracion = string.Empty;
     }
-
-    
-
 
     private void LimpiarFormulario()
     {
